@@ -2,6 +2,42 @@ import java.util.ArrayList;
 
 public class Example {
 
+	private int findFactorial(int n) {
+		int factorialResult = n;
+		for(int i = n - 1; i > 0; i--) {
+			factorialResult *= i;
+		}
+		return factorialResult;
+	}
+
+	private ArrayList<Integer> listToArrayList(int[] userList) {
+		ArrayList<Integer> newArrayList = new ArrayList<Integer>();
+		for(int i = 0; i < userList.length; i++) {
+			newArrayList.add(userList[i]);
+		}
+		return newArrayList;
+	}
+
+	private int[] arrayListToList(ArrayList<Integer> userArrayList) {
+		int[] newList = new int[userArrayList.size()];
+		for (int i = 0; i < userArrayList.size(); i++) {
+			newList[i] = userArrayList.get(i);
+		}
+		return newList;
+	}
+
+	public String getList(int[] userInput) {
+		String userListToString = "{";
+		for (int i = 0; i < userInput.length; i++) {
+			if (i == userInput.length - 1) {
+				userListToString += (String.valueOf(userInput[i]) + "}");
+			} else {
+				userListToString += (String.valueOf(userInput[i]) + ", ");
+			}
+		}
+		return userListToString;
+	}
+
 	// I used https://www.cuemath.com/mean-median-mode-formula/ to get mathamatical formulas
 	// and to help me get a better understanding of the functions.
 	
@@ -19,15 +55,12 @@ public class Example {
 	// Create median: The list must be ordered, so order the list before finding median.
 	// Should be able to call collections sort or arraylist sort of some kind.
 	public double findMedian(int[] userInput) {
-		ArrayList<Integer> orderedList = new ArrayList<Integer>();
-
-		for(int i = 0; i < userInput.length; i++) {
-			orderedList.add(userInput[i]);
-		}
+		ArrayList<Integer> orderedList = listToArrayList(userInput);
 		orderedList.sort(null);
 
 		if(orderedList.size() % 2 == 0) {
-			return ((orderedList.get((orderedList.size() / 2))) + orderedList.get((orderedList.size() / 2) - 1)) / 2.0;
+			return ((orderedList.get((orderedList.size() / 2))) + 
+			orderedList.get((orderedList.size() / 2) - 1)) / 2.0;
 		} else {
 			return orderedList.get(orderedList.size() / 2);
 		}
@@ -65,31 +98,59 @@ public class Example {
 		return standardDeviation;
 	}
 	
-//	public int[] findUnion(int[] userList1, int[] userList2) {
-//		
-//	}
-//	
-//	public int[] findIntersection(int[] userList1, int[] userList2) {
-//		
-//	}
-//	
-//	public int[] findComplement(int[] userList1, int[] userList2) {
-//		
-//	}
-//	
-//	public double findPermutation(int n, int r) {
-//		
-//	}
-//	
-//	public double findCombination(int n, int r) {
-//		
-//	}
-	
-	public int findFactorial(int n) {
-		int factorialResult = n;
-		for(int i = n - 1; i > 0; i--) {
-			factorialResult *= i;
+	public String findUnion(int[] userSet1, int[] userSet2) {
+		ArrayList<Integer> userCombinedSet = listToArrayList(userSet1);
+		ArrayList<Integer> userArrayListTemp = listToArrayList(userSet2);
+		ArrayList<Integer> unionResult = new ArrayList<Integer>();
+		userCombinedSet.addAll(userArrayListTemp);
+		userCombinedSet.sort(null);
+		unionResult.add(userCombinedSet.get(0));
+		for (int i = 1; i < userCombinedSet.size(); i++) {
+			if (userCombinedSet.get(i) != userCombinedSet.get(i - 1)) {
+				unionResult.add(userCombinedSet.get(i));
+			}
 		}
-		return factorialResult;
+		return getList(arrayListToList(unionResult));
 	}
+	
+	public String findIntersection(int[] userSet1, int[] userSet2) {
+		ArrayList<Integer> intersectionResult = new ArrayList<Integer>();
+		for (int i = 0; i < userSet1.length; i++) {
+			for (int j = 0; j < userSet2.length; j++) {
+				if (userSet1[i] == userSet2[j]) {
+					intersectionResult.add(userSet1[i]);
+				}
+			}
+		}
+		return getList(arrayListToList(intersectionResult));
+	}
+	
+	public String findComplement(int[] userSet, int maxCount) {
+		ArrayList<Integer> userArrayList = listToArrayList(userSet);
+		ArrayList<Integer> complementResult = new ArrayList<Integer>();
+		for (int i = 1; i <= maxCount; i++) {
+			boolean valueInSet = false;
+			for (int j = 0; j < userArrayList.size(); j++) {
+				if (i == userArrayList.get(j)) {
+					valueInSet = true;
+					break;
+				}
+			}
+			if (valueInSet == false) {
+				complementResult.add(i);
+			}
+		}
+		return getList(arrayListToList(complementResult));
+	}
+	
+	public int findPermutation(int n, int r) {
+		int permutationResult = findFactorial(n)/(findFactorial(n - r));
+		return permutationResult;
+	}
+	
+	public int findCombination(int n, int r) {
+		int combinationResult = findFactorial(n)/(findFactorial(r) * findFactorial(n - r));
+		return combinationResult;
+	}
+	
 }
