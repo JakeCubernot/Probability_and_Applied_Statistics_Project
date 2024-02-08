@@ -125,10 +125,10 @@ public class Example {
 		return getList(arrayListToList(intersectionResult));
 	}
 	
-	public String findComplement(int[] userSet, int maxCount) {
+	public String findComplement(int[] userSet, int minCount, int maxCount) {
 		ArrayList<Integer> userArrayList = listToArrayList(userSet);
 		ArrayList<Integer> complementResult = new ArrayList<Integer>();
-		for (int i = 1; i <= maxCount; i++) {
+		for (int i = minCount; i <= maxCount; i++) {
 			boolean valueInSet = false;
 			for (int j = 0; j < userArrayList.size(); j++) {
 				if (i == userArrayList.get(j)) {

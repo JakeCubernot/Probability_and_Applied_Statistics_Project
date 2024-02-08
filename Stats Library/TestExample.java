@@ -17,7 +17,7 @@ public class TestExample {
 		System.out.println("Sample Set B: " + test.getList(sampleSetB));
 		System.out.println("A union B: " + test.findUnion(sampleSetA, sampleSetB));
 		System.out.println("A interect B: " + test.findIntersection(sampleSetA, sampleSetB));
-		System.out.println("A complement: " + test.findComplement(sampleSetA, 10));
+		System.out.println("A complement: " + test.findComplement(sampleSetA, -2, 10));
 
 		System.out.println("\nP(5,3) = " + test.findPermutation(5, 3));
 		System.out.println("C(5,3) = " + test.findCombination(5, 3));
