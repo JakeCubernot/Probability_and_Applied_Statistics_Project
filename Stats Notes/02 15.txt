@@ -1,0 +1,14 @@
+Three Bags Problem: photos
+	The Theorem of Total Probability 
+
+Bayes Theorem: Photo
+	Put in formula sheet and stats library. Really understand the three formulas of Bayes Theroem. 
+P(A intersects B) = P(A|B)P(B) 
+
+Three Bags Problems with Bayes Theorem: photo
+
+With Bayes Theorem, order matters. 
+
+Example, Medical Screening: photos 
+
+book p73-75

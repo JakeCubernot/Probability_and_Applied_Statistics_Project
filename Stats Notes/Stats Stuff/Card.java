@@ -1,0 +1,7 @@
+/**
+ * Card
+ */
+public class Card {
+
+    
+}

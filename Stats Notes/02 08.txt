@@ -1,0 +1,18 @@
+Conditional Probability:
+probability of A given  has occured: P(A|B)
+formula within a formula!
+
+Formula Recap: photo
+Experiment: photo
+Examples: photo
+
+Indepentent vs. Dependent
+
+Example 2.15
+A: 
+B: 
+C: 
+
+create Formula Sheet: 
+insert -> equation
+write the mean equation
