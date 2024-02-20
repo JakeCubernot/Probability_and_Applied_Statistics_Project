@@ -1,7 +1,0 @@
-/**
- * Card
- */
-public class Card {
-
-    
-}

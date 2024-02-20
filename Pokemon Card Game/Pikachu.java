@@ -1,17 +1,24 @@
-public class Pikachu extends Pokemon {
-    
+import java.util.Random;
+
+public class Pikachu extends Pokemon implements PokemonCardInterface {
+
     public Pikachu() {
-        setHp(70);
+        setHP(70);
     }
 
-    public void quickAttack(Pokemon unfortunatePokemon) {
-        // deal 10 damage
-        int currentHp = unfortunatePokemon.getHp();
-        int resultingHp = currentHp - 10;
-        unfortunatePokemon.setHp(resultingHp);
+    // Attack One: Gnaw
+    public void attackOne(Pokemon enemyPokemon) {
+        enemyPokemon.setHP(enemyPokemon.getHP() - 10);
     }
 
-    public void electroBall() {
-        // deal 60 damage
+    // Attack Two: Thunder Jolt
+    public void attackTwo(Pokemon enemyPokemon) {
+        Random coinFlip = new Random();
+        if (coinFlip.nextInt(1) == 1) {
+            this.setHP(this.getHP() - 10);
+            enemyPokemon.setHP(enemyPokemon.getHP() - 30);
+        } else {
+            enemyPokemon.setHP(enemyPokemon.getHP() - 30);
+        }
     }
 }

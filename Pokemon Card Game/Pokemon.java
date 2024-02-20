@@ -1,11 +1,22 @@
 public class Pokemon extends Card {
-    private int hp;
 
-    public int getHp() {
+    private int hp;
+    private boolean isParalyzed = false;
+
+    public int getHP() {
         return hp;
     }
 
-    public void setHp(int userInputHp) {
+    public void setHP(int userInputHp) {
         hp = userInputHp;
     }
+
+    public void setIsParalyzed(boolean isParalyzed) {
+        this.isParalyzed = isParalyzed;
+    }
+
+    public boolean getIsParalyzed() {
+        return isParalyzed;
+    }
+    
 }

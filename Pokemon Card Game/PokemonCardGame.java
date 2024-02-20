@@ -14,40 +14,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Collections;
+import java.util.Scanner;
+
 
 public class PokemonCardGame {
 
-    ArrayList<Card> deck = new ArrayList<Card>();
-    ArrayList<Card> hand = new ArrayList<Card>();
-    int deckSize = 60;
+    private ArrayList<Card> deck = new ArrayList<Card>();
+    private ArrayList<Card> hand = new ArrayList<Card>();
+    private Scanner playerInput = new Scanner(System.in);
 
-    public PokemonCardGame() {
-        deck.add(new Pokemon());
-
-        for (int i = 1; i < deckSize; i++) {
-        	deck.add(new Pokemon());
-            deck.add(new Energy());
-            deck.add(new Trainer());
-        }
-        Collections.shuffle(deck);
-        
-    }
-    
-    public PokemonCardGame(int pokemonCardCount, int nonPokemonCardCount) {
+    public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
     	for (int i = 0; i < pokemonCardCount; i++) {
             deck.add(new Pokemon());
         }
-        for (int i = 0; i < nonPokemonCardCount; i++) {
+        for (int i = 0; i < energyCardCount; i++) {
             deck.add(new Energy());
+        }
+        for (int i = 0; i < trainerCardCount; i++) {
+            deck.add(new Trainer());
         }
         Collections.shuffle(deck);
     }
 
     public Card drawCard() {
-        Random rng = new Random();
-        int cardIndex = rng.nextInt(deck.size());
-        Card drawnCard = deck.get(cardIndex);
-        deck.remove(cardIndex);
+        Card drawnCard = deck.get(0);
+        deck.remove(0);
         return drawnCard;
     }
 
@@ -55,6 +46,98 @@ public class PokemonCardGame {
         for (int i = 0; i < 7; i++) {
             hand.add(drawCard()); 
         }
+    }
+
+    public void openingHand(PokemonCardGame player1, PokemonCardGame player2) {
+        player1.buildDeck(20, 20, 20);
+        player2.buildDeck(20, 20, 20);
+        player1.drawHand();
+        player2.drawHand();
+        boolean openingHandsReady = false;
+        while(!openingHandsReady) {
+            if (!player1.evaluateOpeningHand() && !player2.evaluateOpeningHand()) {
+                player1.restartOpeningHand();
+                player2.restartOpeningHand();
+                player1.drawHand();
+                player2.drawHand();
+                System.out.println("Both players do not have a basic Pokemon in their hand. Start over!");
+            } else if (player1.evaluateOpeningHand() && !player2.evaluateOpeningHand()) {
+                player2.restartOpeningHand();
+                player2.drawHand();
+                player1.drawCard();
+                System.out.println("Player 2 does not have a basic Pokemon in their hand. Player 2 must start over and player 1 draws one card!");
+            } else if (!player1.evaluateOpeningHand() && player2.evaluateOpeningHand()) {
+                player1.restartOpeningHand();
+                player1.drawHand();
+                player2.drawCard();
+                System.out.println("Player 1 does not have a basic Pokemon in their hand. Player 1 must start over and player 2 draws one card!");
+            } else {
+                openingHandsReady = true;
+                System.out.println("Both players have a basic Pokemon in their hand. The game can begin!");
+            }
+        }
+
+    }
+    
+    public boolean player1FirstCoinFlip() {
+        System.out.print("Heads or tails player 1?\nEnter 1 for heads and 2 for tails: ");
+        int playerCoinChoice = playerInput.nextInt();
+        Random rng = new Random();
+        int coinFlipResult = rng.nextInt(0, 3);
+        System.out.println(coinFlipResult);
+        if(coinFlipResult == 1) {
+            System.out.println("\nThe coin is heads!");
+        } else {
+            System.out.println("\nThe coin is tails!");
+        }
+        boolean coinFlipWinner = false;
+        switch (playerCoinChoice) {
+            case 1:
+                if (playerCoinChoice == coinFlipResult) {
+                    System.out.println("\nPlayer 1 has won the coin flip. Player 1 can now choose who goes first!");
+                    coinFlipWinner = true;
+                } else {
+                    System.out.println("\nPlayer 2 has won the coin flip. Player 2 can now choose who goes first!");
+                    coinFlipWinner = false;
+                }
+                break;
+        
+            case 2:
+                if (playerCoinChoice == coinFlipResult) {
+                    System.out.println("\nPlayer 1 has won the coin flip. Player 1 can now choose who goes first!");
+                    coinFlipWinner = true;
+                } else {
+                    System.out.println("\nPlayer 2 has won the coin flip. Player 2 can now choose who goes first!");
+                    coinFlipWinner = false;
+                }
+                break;
+        }
+        if (coinFlipWinner) {
+            System.out.print("\nPlayer 1, who do you want to go first?\nEnter 1 for player 1 and 2 for player 2: ");
+            int playerTurnChoice = playerInput.nextInt();
+            if (playerTurnChoice == 1) {
+                System.out.println("Player 1 chooses themselves to go first.\n");
+                coinFlipWinner = true;
+            } else {
+                System.out.println("Player 1 chooses player 2 to go first.\n");
+                coinFlipWinner = false;
+            }
+        } else {
+            if (rng.nextInt(0, 3) == 1) {
+                System.out.println("Player 2 chooses player 1 to go first.\n");
+                coinFlipWinner = true;
+            } else {
+                System.out.println("Player 2 chooses themselves to go first.\n");
+                coinFlipWinner = false;
+            }
+        }
+        return coinFlipWinner;
+    }
+
+    public void restartOpeningHand() {
+        deck.addAll(hand);
+        hand.clear();
+        Collections.shuffle(deck);
     }
 
     public boolean evaluateOpeningHand() {
@@ -72,7 +155,44 @@ public class PokemonCardGame {
         return evaluateOpeningHand();
         
     }
-    
+
+    public void player1Turn() {
+
+    }
+
+    public void player2Turn() {
+
+    }
+
+    public boolean checkIfWinner() {
+        return false;
+    }
+
+    public void runGameSimulation() {
+
+        PokemonCardGame player1 = new PokemonCardGame();
+        PokemonCardGame player2 = new PokemonCardGame();
+
+        if (player1FirstCoinFlip()) {
+            openingHand(player1, player2);
+            while (checkIfWinner() != true) {
+                player1Turn();
+                checkIfWinner();
+                player2Turn();
+                checkIfWinner();
+            }
+        } else {
+            openingHand(player1, player2);
+            while (checkIfWinner() != true) {
+                player2Turn();
+                checkIfWinner();
+                player1Turn();
+                checkIfWinner();
+            }
+        }
+
+    }
+
     public String[][] pokemonMulligansProbability() {
     	String[][] resultMatrix = new String[60][2];
     	resultMatrix[0][0] = "Number of Pokemon Cards in a Deck of 60";
@@ -81,8 +201,9 @@ public class PokemonCardGame {
         for(int i = 1; i < 60; i++) {
         	int pokemonCardCount = 0;
         	for(int j = 1; j < testCount; j++) {
-        	    PokemonCardGame test = new PokemonCardGame(i, 60 - i);
-        	    if (test.pokemonCardProbability()) {
+        	    PokemonCardGame testDeck = new PokemonCardGame();
+                testDeck.buildDeck(i, 60 - i, 0);
+        	    if (testDeck.pokemonCardProbability()) {
         	        pokemonCardCount++;
         	    }
         	}

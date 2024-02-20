@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulator {
+public class NotesSimulator {
 
     private ArrayList<Card> deck;
     private ArrayList<Card> hand;
     private ArrayList<Card> bench;
 
-    public Simulator() {
+    public NotesSimulator() {
 
     }
 
