@@ -21,6 +21,10 @@ public class PokemonCardGame {
 
     private ArrayList<Card> deck = new ArrayList<Card>();
     private ArrayList<Card> hand = new ArrayList<Card>();
+    private ArrayList<Card> bench = new ArrayList<Card>();
+    private ArrayList<Card> active = new ArrayList<Card>();
+    private ArrayList<Card> prize = new ArrayList<Card>();
+    private ArrayList<Card> discard = new ArrayList<Card>();
     private Scanner playerInput = new Scanner(System.in);
 
     public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
@@ -36,6 +40,13 @@ public class PokemonCardGame {
         Collections.shuffle(deck);
     }
 
+    public void placePrizeCards() {
+        for (int i = 0; i < 6; i++) {
+            prize.add(deck.get(0)); 
+            deck.remove(0);
+        }
+    }
+
     public Card drawCard() {
         Card drawnCard = deck.get(0);
         deck.remove(0);
@@ -46,6 +57,32 @@ public class PokemonCardGame {
         for (int i = 0; i < 7; i++) {
             hand.add(drawCard()); 
         }
+    }
+
+    public String viewHand() {
+		String handToString = "\n[";
+		for (int i = 0; i < hand.size(); i++) {
+			if (i == hand.size() - 1) {
+				handToString += (hand.get(i) + "]");
+			} else {
+				handToString += (hand.get(i).toString() + ", ");
+			}
+		}
+		return handToString;
+	}
+
+    public String viewActive() {
+        return active.get(0).toString();
+    }
+
+    public void placePokemonInActive(int handIndex) {
+        active.add(deck.get(handIndex)); 
+        hand.remove(handIndex);
+    }
+
+    public void placePokemonInBench(int handIndex) {
+        active.add(deck.get(handIndex)); 
+        hand.remove(handIndex);
     }
 
     public void openingHand(PokemonCardGame player1, PokemonCardGame player2) {
@@ -76,7 +113,9 @@ public class PokemonCardGame {
                 System.out.println("Both players have a basic Pokemon in their hand. The game can begin!");
             }
         }
-
+        player1.placePrizeCards();
+        player2.placePrizeCards();
+        System.out.println("\nBoth players place 6 prize cards on the board.");
     }
     
     public boolean player1FirstCoinFlip() {
@@ -156,11 +195,16 @@ public class PokemonCardGame {
         
     }
 
-    public void player1Turn() {
-
-    }
-
-    public void player2Turn() {
+    public void playerTurn() {
+        if (active.isEmpty()) {
+            System.out.println(viewHand());
+            System.out.print("Place a basic Pokemon card in your Active.\nSelect the card in your hand from 1 to " + hand.size() + ": ");
+            int playerInput = this.playerInput.nextInt();
+            placePokemonInActive(playerInput - 1);
+        }
+        System.out.println(viewHand());
+        System.out.println(viewActive());
+        int pff = this.playerInput.nextInt();
 
     }
 
@@ -176,17 +220,17 @@ public class PokemonCardGame {
         if (player1FirstCoinFlip()) {
             openingHand(player1, player2);
             while (checkIfWinner() != true) {
-                player1Turn();
+                player1.playerTurn();
                 checkIfWinner();
-                player2Turn();
+                player2.playerTurn();
                 checkIfWinner();
             }
         } else {
             openingHand(player1, player2);
             while (checkIfWinner() != true) {
-                player2Turn();
+                player2.playerTurn();
                 checkIfWinner();
-                player1Turn();
+                player1.playerTurn();
                 checkIfWinner();
             }
         }
