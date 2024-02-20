@@ -59,8 +59,8 @@ public class PokemonCardGame {
         }
     }
 
-    public String viewHand() {
-		String handToString = "\n[";
+    public void viewHand() {
+		String handToString = "Player's Hand: [";
 		for (int i = 0; i < hand.size(); i++) {
 			if (i == hand.size() - 1) {
 				handToString += (hand.get(i) + "]");
@@ -68,11 +68,31 @@ public class PokemonCardGame {
 				handToString += (hand.get(i).toString() + ", ");
 			}
 		}
-		return handToString;
+		System.out.println(handToString);
 	}
 
-    public String viewActive() {
-        return active.get(0).toString();
+    public void viewBench() {
+		String benchToString = "Player's Bench: [";
+		for (int i = 0; i < bench.size(); i++) {
+			if (i == hand.size() - 1) {
+				benchToString += (bench.get(i) + "]");
+			} else {
+				benchToString += (bench.get(i).toString() + ", ");
+			}
+		}
+		System.out.println(benchToString);
+	}
+
+    public void viewActive() {
+        String activeToString = "Player's Active: [";
+		for (int i = 0; i < bench.size(); i++) {
+			if (i == hand.size() - 1) {
+				activeToString += (bench.get(i) + "]");
+			} else {
+				activeToString += (bench.get(i).toString() + ", ");
+			}
+		}
+		System.out.println(activeToString);
     }
 
     public void placePokemonInActive(int handIndex) {
@@ -115,7 +135,7 @@ public class PokemonCardGame {
         }
         player1.placePrizeCards();
         player2.placePrizeCards();
-        System.out.println("\nBoth players place 6 prize cards on the board.");
+        System.out.println("\nBoth players place 6 prize cards on the board.\n");
     }
     
     public boolean player1FirstCoinFlip() {
@@ -197,15 +217,71 @@ public class PokemonCardGame {
 
     public void playerTurn() {
         if (active.isEmpty()) {
-            System.out.println(viewHand());
+            viewHand();
             System.out.print("Place a basic Pokemon card in your Active.\nSelect the card in your hand from 1 to " + hand.size() + ": ");
-            int playerInput = this.playerInput.nextInt();
-            placePokemonInActive(playerInput - 1);
+            int playerInput = this.playerInput.nextInt() - 1;
+            placePokemonInActive(playerInput);
         }
-        System.out.println(viewHand());
-        System.out.println(viewActive());
-        int pff = this.playerInput.nextInt();
+        if (bench.isEmpty()) {
+            for(int i = 0; i < 5; i++) {
+                lineBreakTUI();
+                viewHand();
+                System.out.print("If any, add additional basic Pokemon cards to the Bench.\nSelect the card in your hand from 1 to " 
+                + hand.size() + ".\nIf there is no remaining basic Pokemon cards, enter 0.\nYou have " + (5 - i) + " slots avalible on your Bench: ");
+                int playerInput = this.playerInput.nextInt() - 1;
+                if (playerInput == -1) {
+                    break;
+                } else {
+                    bench.add(hand.get(playerInput));
+                    hand.remove(playerInput);
+                    viewBench();
+                }
+            }
+        }
+        boolean playingTurn = true;
+        while (playingTurn) {
+            lineBreakTUI();
+            viewHand();
+            viewBench();
+            viewActive();
+            System.out.print("1. Edit Active\n2. Edit Hand\n3. End Turn\nChoose one of the options: ");
+            int playerMenuChoice = playerInput.nextInt();
+            switch (playerMenuChoice) {
+                case 1:
+                    boolean usingActiveMenu = true;
+                    while (usingActiveMenu) {
+                        lineBreakTUI();
+                        viewHand();
+                        viewActive();
+                        System.out.print("1. Add Energy Card to Active Card\n2. Return to Previous Menu\nChoose one of the options: ");
+                        int activeMenuChoice = playerInput.nextInt();
+                        switch (activeMenuChoice) {
+                            case 1:
+                                lineBreakTUI();
+                                viewHand();
+                                viewActive();
+                                System.out.print("Select an Energy card to add to the Active card.\nSelect the card in your hand from 1 to " 
+                                + hand.size() + ": ");
+                                int energyCardChoice = playerInput.nextInt() - 1;
+                                active.add(hand.get(energyCardChoice));
+                                hand.remove(energyCardChoice);
+                                break;
+                            case 2:
+                                usingActiveMenu = false;
+                                System.out.println("\nReturning to Previous Menu...");
+                                break;
+                        }
+                    }
 
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    playingTurn = false;
+                    break;
+            }
+        }
+        System.out.println("\nSwitching to player 2's turn.");
     }
 
     public boolean checkIfWinner() {
@@ -285,5 +361,10 @@ public class PokemonCardGame {
     	String[][] mulligansData = pokemonMulligansProbability();
     	writeCSVFile(mulligansData);
     }
+
+    // ===================== TUI FUNCTIONS =====================
     
+    private void lineBreakTUI() {
+        System.out.println("\n");
+    }
 }
