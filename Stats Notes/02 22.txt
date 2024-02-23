@@ -1,0 +1,41 @@
+Expectations for discrete random variables:
+    The expectation (or expected value) of a discrete random variable Y, denoted E[Y ],
+    is defined as: photo*
+
+Variance:
+    The variance of random variable Y is denoted V[Y ], and is defined by: photo
+    The standard deviation of Y is: photo
+
+The binomial distribution: 
+    We can now consider specific pmfs that correspond to particular experimental settings.
+    The goal is to find the probability of an event that can either succeed or fail, and run that event
+    some amount of times. photo & pg 101 def 3.6, property #5 is important*
+    Formula of the pmf for the binomial distribution: photos***** 
+        Example 1: photos
+        Example 2: photos 
+        Example 3: photos
+
+E(Y) and V(Y) for binomial distribution: photo
+    
+Observation: 
+    We've been mainly looking at when P(Y=y). But according to the fomula's we've
+    been skipping, we can just add them up if it's a <= or >= etc.
+    P(Y>2) if there are 5 things would be ~> P(Y=3)+P(Y=4)+P(Y=5)
+        Book Example 3.7: photos
+        Book Example 3.8: photos 
+
+Let's Try: p.110: photo 
+
+Programming Assignment: photo
+    Part 1:
+        Let's write another Monte Carlo Simulation. We'll use our existing Pokemon
+        deck to do this. 
+        A Charizard deck needs to find a rare candy to have a chance at winning. 
+        What if, the rare candy wasn't in the deck, but in the prize pile.
+        So write a monte carlo simulation adding 1, then 2, then 3, then 4 rare 
+        candy trainer cards into your deck (you don't have to implement) 
+        15 Pokemon in deck, 15 energy, rest your trainer (4 rare candy). 
+        Once again, find the odds, given that a Pokemon was in the opening hand, what are the odds that your
+        deck is "bricked." So what's the probability that your rare candy is in your prize pile. 
+    Part 2: 
+        Once your program runs and works. Solve it using math and conditional probability. 

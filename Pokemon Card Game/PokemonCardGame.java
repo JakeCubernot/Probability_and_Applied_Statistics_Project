@@ -16,7 +16,6 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Scanner;
 
-
 public class PokemonCardGame {
 
     private ArrayList<Card> deck = new ArrayList<Card>();
