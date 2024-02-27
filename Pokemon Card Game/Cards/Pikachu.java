@@ -1,9 +1,16 @@
+package Cards;
 import java.util.Random;
 
 public class Pikachu extends Pokemon implements PokemonCardInterface {
 
+	private String cardImage = "/Card Images/Pikachu.jpg";
+	
     public Pikachu() {
         setHP(70);
+    }
+    
+    public String getCardImage() {
+    	return cardImage;
     }
 
     // Attack One: Gnaw

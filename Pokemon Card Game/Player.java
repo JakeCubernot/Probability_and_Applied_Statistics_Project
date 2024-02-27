@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+import Cards.Card;
+import Cards.Energy;
+import Cards.Pokemon;
+import Cards.Trainer;
+
 public class Player {
 	ArrayList<Card> deck = new ArrayList<Card>();
 	ArrayList<Card> hand = new ArrayList<Card>();

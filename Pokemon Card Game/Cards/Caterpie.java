@@ -1,7 +1,12 @@
+package Cards;
 import java.util.Random;
 
-public class Caterpie extends Pokemon implements PokemonCardInterface {
+import javax.swing.ImageIcon;
 
+public class Caterpie extends Pokemon implements PokemonCardInterface {
+	
+	private String cardImageLocation = "/Card Images/Caterpie.jpg";
+	
     public Caterpie() {
         setHP(40);
     }

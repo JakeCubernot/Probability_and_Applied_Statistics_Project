@@ -16,25 +16,39 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Scanner;
 
+import Cards.Card;
+import Cards.Caterpie;
+import Cards.Energy;
+import Cards.GrassEnergy;
+import Cards.LightningEnergy;
+import Cards.NestBall;
+import Cards.Pikachu;
+import Cards.Pokemon;
+import Cards.ProfessorsResearch;
+import Cards.Trainer;
+
 public class PokemonCardGame {
 
-    private ArrayList<Card> deck = new ArrayList<Card>();
-    private ArrayList<Card> hand = new ArrayList<Card>();
-    private ArrayList<Card> bench = new ArrayList<Card>();
-    private ArrayList<Card> active = new ArrayList<Card>();
-    private ArrayList<Card> prize = new ArrayList<Card>();
-    private ArrayList<Card> discard = new ArrayList<Card>();
+	public ArrayList<Card> deck = new ArrayList<Card>();
+    public ArrayList<Card> hand = new ArrayList<Card>();
+    public ArrayList<Card> bench = new ArrayList<Card>();
+    public ArrayList<Card> active = new ArrayList<Card>();
+    public ArrayList<Card> prize = new ArrayList<Card>();
+    public ArrayList<Card> discard = new ArrayList<Card>();
     private Scanner playerInput = new Scanner(System.in);
 
     public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
-    	for (int i = 0; i < pokemonCardCount; i++) {
-            deck.add(new Pokemon());
+    	for (int i = 0; i < pokemonCardCount / 2; i++) {
+            deck.add(new Pikachu());
+            deck.add(new Caterpie());
         }
-        for (int i = 0; i < energyCardCount; i++) {
-            deck.add(new Energy());
+        for (int i = 0; i < energyCardCount / 2; i++) {
+            deck.add(new LightningEnergy());
+            deck.add(new GrassEnergy());
         }
-        for (int i = 0; i < trainerCardCount; i++) {
-            deck.add(new Trainer());
+        for (int i = 0; i < trainerCardCount / 2; i++) {
+        	deck.add(new ProfessorsResearch());
+            deck.add(new NestBall());
         }
         Collections.shuffle(deck);
     }
@@ -58,13 +72,49 @@ public class PokemonCardGame {
         }
     }
 
+    public void viewHand() {
+		String handToString = "Player's Hand: [";
+		for (int i = 0; i < hand.size(); i++) {
+			if (i == hand.size() - 1) {
+				handToString += (hand.get(i) + "]");
+			} else {
+				handToString += (hand.get(i).toString() + ", ");
+			}
+		}
+		System.out.println(handToString);
+	}
+
+    public void viewBench() {
+		String benchToString = "Player's Bench: [";
+		for (int i = 0; i < bench.size(); i++) {
+			if (i == hand.size() - 1) {
+				benchToString += (bench.get(i) + "]");
+			} else {
+				benchToString += (bench.get(i).toString() + ", ");
+			}
+		}
+		System.out.println(benchToString);
+	}
+
+    public void viewActive() {
+        String activeToString = "Player's Active: [";
+		for (int i = 0; i < bench.size(); i++) {
+			if (i == hand.size() - 1) {
+				activeToString += (bench.get(i) + "]");
+			} else {
+				activeToString += (bench.get(i).toString() + ", ");
+			}
+		}
+		System.out.println(activeToString);
+    }
+
     public void placePokemonInActive(int handIndex) {
         active.add(deck.get(handIndex)); 
         hand.remove(handIndex);
     }
 
     public void placePokemonInBench(int handIndex) {
-        bench.add(deck.get(handIndex)); 
+        active.add(deck.get(handIndex)); 
         hand.remove(handIndex);
     }
 
@@ -105,7 +155,7 @@ public class PokemonCardGame {
         System.out.print("Heads or tails player 1?\nEnter 1 for heads and 2 for tails: ");
         int playerCoinChoice = playerInput.nextInt();
         Random rng = new Random();
-        int coinFlipResult = rng.nextInt(0, 3);
+        int coinFlipResult = rng.nextInt(2) + 1;
         System.out.println(coinFlipResult);
         if(coinFlipResult == 1) {
             System.out.println("\nThe coin is heads!");
@@ -145,7 +195,7 @@ public class PokemonCardGame {
                 coinFlipWinner = false;
             }
         } else {
-            if (rng.nextInt(0, 3) == 1) {
+            if ((rng.nextInt(2) + 1) == 1) {
                 System.out.println("Player 2 chooses player 1 to go first.\n");
                 coinFlipWinner = true;
             } else {
@@ -180,15 +230,14 @@ public class PokemonCardGame {
 
     public void playerTurn() {
         if (active.isEmpty()) {
-            viewHandTUI();
+            viewHand();
             System.out.print("Place a basic Pokemon card in your Active.\nSelect the card in your hand from 1 to " + hand.size() + ": ");
             int playerInput = this.playerInput.nextInt() - 1;
             placePokemonInActive(playerInput);
         }
         if (bench.isEmpty()) {
             for(int i = 0; i < 5; i++) {
-                lineBreakTUI();
-                viewHUDTUI();
+                viewHand();
                 System.out.print("If any, add additional basic Pokemon cards to the Bench.\nSelect the card in your hand from 1 to " 
                 + hand.size() + ".\nIf there is no remaining basic Pokemon cards, enter 0.\nYou have " + (5 - i) + " slots avalible on your Bench: ");
                 int playerInput = this.playerInput.nextInt() - 1;
@@ -197,29 +246,29 @@ public class PokemonCardGame {
                 } else {
                     bench.add(hand.get(playerInput));
                     hand.remove(playerInput);
-                    lineBreakTUI();
-                    viewHUDTUI();
+                    viewBench();
                 }
             }
         }
         boolean playingTurn = true;
         while (playingTurn) {
-            lineBreakTUI();
-            viewHUDTUI();
+            viewHand();
+            viewBench();
+            viewActive();
             System.out.print("1. Edit Active\n2. Edit Hand\n3. End Turn\nChoose one of the options: ");
             int playerMenuChoice = playerInput.nextInt();
             switch (playerMenuChoice) {
                 case 1:
                     boolean usingActiveMenu = true;
                     while (usingActiveMenu) {
-                        lineBreakTUI();
-                        viewHUDTUI();
+                        viewHand();
+                        viewActive();
                         System.out.print("1. Add Energy Card to Active Card\n2. Return to Previous Menu\nChoose one of the options: ");
                         int activeMenuChoice = playerInput.nextInt();
                         switch (activeMenuChoice) {
                             case 1:
-                                lineBreakTUI();
-                                viewHUDTUI();
+                                viewHand();
+                                viewActive();
                                 System.out.print("Select an Energy card to add to the Active card.\nSelect the card in your hand from 1 to " 
                                 + hand.size() + ": ");
                                 int energyCardChoice = playerInput.nextInt() - 1;
@@ -320,65 +369,5 @@ public class PokemonCardGame {
     	
     	String[][] mulligansData = pokemonMulligansProbability();
     	writeCSVFile(mulligansData);
-    }
-
-    // ===================== TUI FUNCTIONS =====================
-    
-    private void lineBreakTUI() {
-        System.out.println("\n");
-    }
-
-    public void viewHUDTUI() {
-        viewHandTUI();
-        viewBenchTUI();
-        viewActiveTUI();
-    }
-
-    public void viewHandTUI() {
-        if (hand.size() != 0) {
-            String handToString = "Player's Hand: [";
-            for (int i = 0; i < hand.size(); i++) {
-                if (i == hand.size() - 1) {
-                    handToString += ((i + 1) + ": " + hand.get(i) + "]");
-                } else {
-                    handToString += ((i + 1) + ": " + hand.get(i).toString() + ", ");
-                }
-            }
-            System.out.println(handToString);
-        } else {
-            System.out.println("Player's Hand: [empty]");
-        }
-	}
-
-    public void viewBenchTUI() {
-        if (bench.size() != 0) {
-            String benchToString = "Player's Bench: [";
-            for (int i = 0; i < bench.size(); i++) {
-                if (i == bench.size() - 1) {
-                    benchToString += ((i + 1) + ": " + bench.get(i) + "]");
-                } else {
-                    benchToString += ((i + 1) + ": " + bench.get(i).toString() + ", ");
-                }
-            }
-            System.out.println(benchToString);
-        } else {
-            System.out.println("Player's Bench: [empty]");
-        }
-	}
-
-    public void viewActiveTUI() {
-        if (active.size() != 0) {
-            String activeToString = "Player's Active: [";
-            for (int i = 0; i < active.size(); i++) {
-                if (i == active.size() - 1) {
-                    activeToString += ((i + 1) + ": " + active.get(i) + "]");
-                } else {
-                    activeToString += ((i + 1) + ": " + active.get(i).toString() + ", ");
-                }
-            }
-            System.out.println(activeToString);
-        } else {
-            System.out.println("Player's Active: [empty]");
-        }
     }
 }
