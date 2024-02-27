@@ -58,49 +58,13 @@ public class PokemonCardGame {
         }
     }
 
-    public void viewHand() {
-		String handToString = "Player's Hand: [";
-		for (int i = 0; i < hand.size(); i++) {
-			if (i == hand.size() - 1) {
-				handToString += (hand.get(i) + "]");
-			} else {
-				handToString += (hand.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(handToString);
-	}
-
-    public void viewBench() {
-		String benchToString = "Player's Bench: [";
-		for (int i = 0; i < bench.size(); i++) {
-			if (i == hand.size() - 1) {
-				benchToString += (bench.get(i) + "]");
-			} else {
-				benchToString += (bench.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(benchToString);
-	}
-
-    public void viewActive() {
-        String activeToString = "Player's Active: [";
-		for (int i = 0; i < bench.size(); i++) {
-			if (i == hand.size() - 1) {
-				activeToString += (bench.get(i) + "]");
-			} else {
-				activeToString += (bench.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(activeToString);
-    }
-
     public void placePokemonInActive(int handIndex) {
         active.add(deck.get(handIndex)); 
         hand.remove(handIndex);
     }
 
     public void placePokemonInBench(int handIndex) {
-        active.add(deck.get(handIndex)); 
+        bench.add(deck.get(handIndex)); 
         hand.remove(handIndex);
     }
 
@@ -216,7 +180,7 @@ public class PokemonCardGame {
 
     public void playerTurn() {
         if (active.isEmpty()) {
-            viewHand();
+            viewHandTUI();
             System.out.print("Place a basic Pokemon card in your Active.\nSelect the card in your hand from 1 to " + hand.size() + ": ");
             int playerInput = this.playerInput.nextInt() - 1;
             placePokemonInActive(playerInput);
@@ -224,7 +188,7 @@ public class PokemonCardGame {
         if (bench.isEmpty()) {
             for(int i = 0; i < 5; i++) {
                 lineBreakTUI();
-                viewHand();
+                viewHUDTUI();
                 System.out.print("If any, add additional basic Pokemon cards to the Bench.\nSelect the card in your hand from 1 to " 
                 + hand.size() + ".\nIf there is no remaining basic Pokemon cards, enter 0.\nYou have " + (5 - i) + " slots avalible on your Bench: ");
                 int playerInput = this.playerInput.nextInt() - 1;
@@ -233,16 +197,15 @@ public class PokemonCardGame {
                 } else {
                     bench.add(hand.get(playerInput));
                     hand.remove(playerInput);
-                    viewBench();
+                    lineBreakTUI();
+                    viewHUDTUI();
                 }
             }
         }
         boolean playingTurn = true;
         while (playingTurn) {
             lineBreakTUI();
-            viewHand();
-            viewBench();
-            viewActive();
+            viewHUDTUI();
             System.out.print("1. Edit Active\n2. Edit Hand\n3. End Turn\nChoose one of the options: ");
             int playerMenuChoice = playerInput.nextInt();
             switch (playerMenuChoice) {
@@ -250,15 +213,13 @@ public class PokemonCardGame {
                     boolean usingActiveMenu = true;
                     while (usingActiveMenu) {
                         lineBreakTUI();
-                        viewHand();
-                        viewActive();
+                        viewHUDTUI();
                         System.out.print("1. Add Energy Card to Active Card\n2. Return to Previous Menu\nChoose one of the options: ");
                         int activeMenuChoice = playerInput.nextInt();
                         switch (activeMenuChoice) {
                             case 1:
                                 lineBreakTUI();
-                                viewHand();
-                                viewActive();
+                                viewHUDTUI();
                                 System.out.print("Select an Energy card to add to the Active card.\nSelect the card in your hand from 1 to " 
                                 + hand.size() + ": ");
                                 int energyCardChoice = playerInput.nextInt() - 1;
@@ -365,5 +326,59 @@ public class PokemonCardGame {
     
     private void lineBreakTUI() {
         System.out.println("\n");
+    }
+
+    public void viewHUDTUI() {
+        viewHandTUI();
+        viewBenchTUI();
+        viewActiveTUI();
+    }
+
+    public void viewHandTUI() {
+        if (hand.size() != 0) {
+            String handToString = "Player's Hand: [";
+            for (int i = 0; i < hand.size(); i++) {
+                if (i == hand.size() - 1) {
+                    handToString += ((i + 1) + ": " + hand.get(i) + "]");
+                } else {
+                    handToString += ((i + 1) + ": " + hand.get(i).toString() + ", ");
+                }
+            }
+            System.out.println(handToString);
+        } else {
+            System.out.println("Player's Hand: [empty]");
+        }
+	}
+
+    public void viewBenchTUI() {
+        if (bench.size() != 0) {
+            String benchToString = "Player's Bench: [";
+            for (int i = 0; i < bench.size(); i++) {
+                if (i == bench.size() - 1) {
+                    benchToString += ((i + 1) + ": " + bench.get(i) + "]");
+                } else {
+                    benchToString += ((i + 1) + ": " + bench.get(i).toString() + ", ");
+                }
+            }
+            System.out.println(benchToString);
+        } else {
+            System.out.println("Player's Bench: [empty]");
+        }
+	}
+
+    public void viewActiveTUI() {
+        if (active.size() != 0) {
+            String activeToString = "Player's Active: [";
+            for (int i = 0; i < active.size(); i++) {
+                if (i == active.size() - 1) {
+                    activeToString += ((i + 1) + ": " + active.get(i) + "]");
+                } else {
+                    activeToString += ((i + 1) + ": " + active.get(i).toString() + ", ");
+                }
+            }
+            System.out.println(activeToString);
+        } else {
+            System.out.println("Player's Active: [empty]");
+        }
     }
 }
