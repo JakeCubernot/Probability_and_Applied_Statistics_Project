@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.CardLayout;
 import java.awt.Label;
+import javax.swing.JPanel;
 
 /* 
  * Sources for this class:
@@ -85,17 +86,38 @@ public class PokemonCardGameGUI {
 		frame.getContentPane().add(coinTossResultPanel, "name_233876974578700");
 		coinTossResultPanel.setLayout(null);
 		
-		Panel player1TurnPanel = new Panel();
-		player1TurnPanel.setBackground(new Color(192, 192, 192));
-		frame.getContentPane().add(player1TurnPanel, "name_238037374701900");
+		Panel playerTurnPanel = new Panel();
+		playerTurnPanel.setBackground(new Color(192, 192, 192));
+		frame.getContentPane().add(playerTurnPanel, "name_238037374701900");
+		playerTurnPanel.setLayout(null);
 		
-		Panel player1EditActivePanel = new Panel();
-		player1EditActivePanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(player1EditActivePanel, "name_238466995465400");
+		Panel playerActivePanel = new Panel();
+		playerActivePanel.setBounds(10, 364, 621, 78);
+		playerTurnPanel.add(playerActivePanel);
 		
-		Panel player1EditBenchPanel = new Panel();
-		player1EditBenchPanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(player1EditBenchPanel, "name_238470891129500");
+		Panel playerBenchPanel = new Panel();
+		playerBenchPanel.setBounds(10, 448, 621, 78);
+		playerTurnPanel.add(playerBenchPanel);
+		
+		Panel playerHandPanel = new Panel();
+		playerHandPanel.setBounds(10, 533, 621, 78);
+		playerTurnPanel.add(playerHandPanel);
+		
+		Panel panel_1_1_1 = new Panel();
+		panel_1_1_1.setBounds(90, 255, 461, 0);
+		playerTurnPanel.add(panel_1_1_1);
+		
+		Panel enemyDeckPanel = new Panel();
+		enemyDeckPanel.setBounds(694, 11, 299, 66);
+		playerTurnPanel.add(enemyDeckPanel);
+		
+		Panel enemyBenchPanel = new Panel();
+		enemyBenchPanel.setBounds(694, 88, 299, 66);
+		playerTurnPanel.add(enemyBenchPanel);
+		
+		Panel enemyActivePanel = new Panel();
+		enemyActivePanel.setBounds(398, 11, 286, 143);
+		playerTurnPanel.add(enemyActivePanel);
 		
 		Panel player1OpeningTurnPanel = new Panel();
 		player1OpeningTurnPanel.setBackground(Color.LIGHT_GRAY);
@@ -116,18 +138,6 @@ public class PokemonCardGameGUI {
 		player1OpeningActivePanel.setBackground(new Color(255, 255, 255));
 		player1OpeningActivePanel.setBounds(10, 10, 983, 168);
 		player1OpeningTurnPanel.add(player1OpeningActivePanel);
-		
-		Panel player2TurnPanel = new Panel();
-		player2TurnPanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(player2TurnPanel, "name_238627559909700");
-		
-		Panel player2EditActivePanel = new Panel();
-		player2EditActivePanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(player2EditActivePanel, "name_239046982001800");
-		
-		Panel player2EditBenchPanel = new Panel();
-		player2EditBenchPanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(player2EditBenchPanel, "name_239049689014600");
 		
 		Panel player2OpeningTurnPanel = new Panel();
 		player2OpeningTurnPanel.setBackground(Color.LIGHT_GRAY);
@@ -186,6 +196,12 @@ public class PokemonCardGameGUI {
 		player2OpeningHandMenuLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		player2OpeningHandMenuLabel.setBounds(20, 555, 804, 56);
 		player2OpeningTurnPanel.add(player2OpeningHandMenuLabel);
+		
+		JLabel playerTurnLabel = new JLabel("sample text");
+		playerTurnLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		playerTurnLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerTurnLabel.setBounds(727, 533, 225, 59);
+		playerTurnPanel.add(playerTurnLabel);
 		
 		// ================ BUTTONS ================
 		JButton btnNewButton = new JButton("Heads");
@@ -285,9 +301,13 @@ public class PokemonCardGameGUI {
 						addCardsToHandPanel(player2OpeningHandPanel, player2OpeningActivePanel, player2OpeningBenchPanel, player2OpeningHandMenuLabel, player2);
 					} else {
 						System.out.println("Game Ready");
+						player1OpeningTurnPanel.setVisible(false);
+						playerTurnPanel.setVisible(true);
+						playerTurn(player2, player1, playerActivePanel, playerBenchPanel, playerHandPanel, enemyActivePanel, enemyBenchPanel, enemyDeckPanel, playerTurnLabel);
 					}
 				} else {
 					System.out.println("Active Not Set");
+					player2OpeningTurnPanel.setVisible(true);
 				}
 			}
 		});
@@ -307,6 +327,9 @@ public class PokemonCardGameGUI {
 						addCardsToHandPanel(player1OpeningHandPanel, player1OpeningActivePanel, player1OpeningBenchPanel, player1OpeningHandMenuLabel, player1);
 					} else {
 						System.out.println("Game Ready");
+						player2OpeningTurnPanel.setVisible(false);
+						playerTurnPanel.setVisible(true);
+						playerTurn(player1, player2, playerActivePanel, playerBenchPanel, playerHandPanel, enemyActivePanel, enemyBenchPanel, enemyDeckPanel, playerTurnLabel);
 					}
 				} else {
 					System.out.println("Active Not Set");
@@ -320,8 +343,22 @@ public class PokemonCardGameGUI {
 	}
 	
 	// ================ FUNCTIONS ================
+
+	public void playerTurn(PokemonCardGame currentPlayer, PokemonCardGame enemyPlayer, Panel currentActivePanel, 
+			Panel currentBenchPanel, Panel currentHandPanel, Panel enemyActivePanel, Panel enemyBenchPanel, Panel enemyHandPanel, JLabel playerTurnLabel) {
+		
+		addCardsToHandPanel(currentHandPanel, currentActivePanel, currentBenchPanel, playerTurnLabel, currentPlayer);
+		addCardsToHandPanel(enemyHandPanel, enemyActivePanel, enemyBenchPanel, playerTurnLabel, enemyPlayer);
+		
+		addCardToBenchPanel(currentHandPanel, currentActivePanel, currentBenchPanel, playerTurnLabel, currentPlayer, 0);
+		addCardToBenchPanel(enemyHandPanel, enemyActivePanel, enemyBenchPanel, playerTurnLabel, enemyPlayer, 0);
+		
+		addCardToActivePanel(currentHandPanel, currentActivePanel, currentBenchPanel, playerTurnLabel, currentPlayer, 0);
+		addCardToActivePanel(enemyHandPanel, enemyActivePanel, enemyBenchPanel, playerTurnLabel, enemyPlayer, 0);
+	}
 	
-	public void addCardToBenchPanel(Panel handPanel, Panel activePanel, Panel benchPanel, JLabel instructionsText, PokemonCardGame player, int selectedCardIndex) {
+	public void addCardToBenchPanel(Panel handPanel, Panel activePanel, Panel benchPanel, 
+			JLabel instructionsText, PokemonCardGame player, int selectedCardIndex) {
 		
 		addCardsToHandPanel(handPanel, activePanel, benchPanel, instructionsText, player);
 		addCardToActivePanel(handPanel, activePanel, benchPanel, instructionsText, player, selectedCardIndex);
@@ -354,6 +391,15 @@ public class PokemonCardGameGUI {
 		        	break;
 		        case "class Cards.LightningEnergy":
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Lightning Energy.jpg"));
+		        	break;
+		        case "class Cards.SuperPotion":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Super Potion.jpg"));
+		        	break;
+		        case "class Cards.FireEnergy":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Fire Energy.jpg"));
+		        	break;
+		        case "class Cards.Charmander":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Charmander.jpg"));
 		        	break;
 		        default:
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Pikachu.jpg"));
@@ -421,6 +467,15 @@ public class PokemonCardGameGUI {
 		        case "class Cards.LightningEnergy":
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Lightning Energy.jpg"));
 		        	break;
+		        case "class Cards.SuperPotion":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Super Potion.jpg"));
+		        	break;
+		        case "class Cards.FireEnergy":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Fire Energy.jpg"));
+		        	break;
+		        case "class Cards.Charmander":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Charmander.jpg"));
+		        	break;
 		        default:
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Pikachu.jpg"));
 		        	break;
@@ -485,6 +540,15 @@ public class PokemonCardGameGUI {
 		        	break;
 		        case "class Cards.LightningEnergy":
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Lightning Energy.jpg"));
+		        	break;
+		        case "class Cards.SuperPotion":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Super Potion.jpg"));
+		        	break;
+		        case "class Cards.FireEnergy":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Fire Energy.jpg"));
+		        	break;
+		        case "class Cards.Charmander":
+		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Charmander.jpg"));
 		        	break;
 		        default:
 		        	cardImage = new ImageIcon(getClass().getResource("/Card Images/Pikachu.jpg"));

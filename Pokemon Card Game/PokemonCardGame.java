@@ -18,13 +18,16 @@ import java.util.Scanner;
 
 import Cards.Card;
 import Cards.Caterpie;
+import Cards.Charmander;
 import Cards.Energy;
+import Cards.FireEnergy;
 import Cards.GrassEnergy;
 import Cards.LightningEnergy;
 import Cards.NestBall;
 import Cards.Pikachu;
 import Cards.Pokemon;
 import Cards.ProfessorsResearch;
+import Cards.SuperPotion;
 import Cards.Trainer;
 
 public class PokemonCardGame {
@@ -38,18 +41,40 @@ public class PokemonCardGame {
     private Scanner playerInput = new Scanner(System.in);
 
     public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
-    	for (int i = 0; i < pokemonCardCount / 2; i++) {
+    	for (int i = 0; i < pokemonCardCount / 4; i++) {
             deck.add(new Pikachu());
             deck.add(new Caterpie());
+            deck.add(new Charmander());
         }
-        for (int i = 0; i < energyCardCount / 2; i++) {
+    	deck.add(new Pikachu());
+        deck.add(new Caterpie());
+        deck.add(new Charmander());
+        deck.add(new Pikachu());
+        deck.add(new Caterpie());
+    	
+        for (int i = 0; i < energyCardCount / 4; i++) {
             deck.add(new LightningEnergy());
             deck.add(new GrassEnergy());
+            deck.add(new FireEnergy());
         }
-        for (int i = 0; i < trainerCardCount / 2; i++) {
+        deck.add(new LightningEnergy());
+        deck.add(new GrassEnergy());
+        deck.add(new FireEnergy());
+        deck.add(new LightningEnergy());
+        deck.add(new GrassEnergy());
+        
+        for (int i = 0; i < trainerCardCount / 4; i++) {
         	deck.add(new ProfessorsResearch());
             deck.add(new NestBall());
+            deck.add(new SuperPotion());
         }
+        deck.add(new ProfessorsResearch());
+        deck.add(new NestBall());
+        deck.add(new SuperPotion());
+        deck.add(new ProfessorsResearch());
+        deck.add(new SuperPotion());
+        
+        System.out.println(deck.size());
         Collections.shuffle(deck);
     }
 
