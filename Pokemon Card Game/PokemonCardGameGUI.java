@@ -36,7 +36,7 @@ public class PokemonCardGameGUI {
 	
 	private PokemonCardGame player1 = new PokemonCardGame();
 	private PokemonCardGame player2 = new PokemonCardGame();
-
+	
 	/**
 	 * Launch the application.
 	 */
