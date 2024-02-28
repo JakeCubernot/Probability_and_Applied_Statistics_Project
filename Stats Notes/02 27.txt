@@ -1,0 +1,34 @@
+Geometric Distribution:
+    Based on identical and independent binary trials.
+    Count the number of trials carried out until the first success. 
+    Using the 0/1 notation, we consider sequences such as: 
+        0001
+        01
+        000000001
+        1
+        000001
+        Etc.
+        
+    If random variable Y records the number of trials carried out up to an 
+    including the first success, then:
+        p(y)=P(Y=y)=q^(y-1) *p
+            where:y for {1,2,3,...}
+    and zero for other values of y. This follows as:
+        Y=y<==>"y-1 failures, followed by ???"
+         
+    Expected and Variance:
+        Formula's p116 Definition 3.5:
+            E(Y)=1/p 
+            V(Y)=(1-p)/p^2
+
+    A fair coin is tossed.
+    - What is the probability of getting a tail at the 5th toss?
+    - photos 
+
+Geometric Distribution: Extra Formulas: photos (not in book that are used 
+depending on problem wording)
+    Example 2: photos
+    Example 3: photos
+    Book Problem: photos 
+    Example 3.12: photos
+    
