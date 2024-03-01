@@ -17,7 +17,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.CardLayout;
 import java.awt.Label;
-import javax.swing.JPanel;
 
 /* 
  * Sources for this class:
