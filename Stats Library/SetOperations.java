@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * The SetOperations class contains some basic set operations for mainly 
+ * integer lists.
+ * 
+ * @author Jake Cubernot
+ */
 public class SetOperations {
 
     private ArrayList<String> daysOfWeekSet = new ArrayList<>() {{
@@ -12,7 +18,14 @@ public class SetOperations {
 		add("Saturday");
 	}};
 
-    private ArrayList<Integer> listToArrayList(int[] userList) {
+	
+	/** 
+	 * Converts an int[] to ArrayList<Integer>.
+	 * 
+	 * @param userList The list that the user wants to convert to an Arraylist<Integer>.
+	 * @return The converted int[] to ArrayList<Integer>.
+	 */
+	private ArrayList<Integer> listToArrayList(int[] userList) {
 		ArrayList<Integer> newArrayList = new ArrayList<Integer>();
 		for(int i = 0; i < userList.length; i++) {
 			newArrayList.add(userList[i]);
@@ -20,6 +33,13 @@ public class SetOperations {
 		return newArrayList;
 	}
 
+	
+	/** 
+	 * Converts an ArrayList<Integer> to an int[].
+	 * 
+	 * @param userArrayList The ArrayList<Integer> that the user wants to convert to an int[].
+	 * @return The converted ArrayList<Integer> to int[].
+	 */
 	private int[] arrayListToList(ArrayList<Integer> userArrayList) {
 		int[] newList = new int[userArrayList.size()];
 		for (int i = 0; i < userArrayList.size(); i++) {
@@ -28,6 +48,13 @@ public class SetOperations {
 		return newList;
 	}
 
+	
+	/** 
+	 * Converts an int[] to a String that shows a visual representation of the list, int[].
+	 * 
+	 * @param userList The int[] that the user wants to convert to a String.
+	 * @return The String that shows a visual representation of the list, int[].
+	 */
 	public String getList(int[] userInput) {
 		String userListToString = "{";
 		for (int i = 0; i < userInput.length; i++) {
@@ -40,6 +67,14 @@ public class SetOperations {
 		return userListToString;
 	}
 	
+	
+	/** 
+	 * Finds the the union set of A union B where the both sets are int[].
+	 * 
+	 * @param userSet1 User's Set A as an int[]. 
+	 * @param userSet2 User's Set B as an int[]. 
+	 * @return String displaying the result of A union B.
+	 */
 	public String findUnion(int[] userSet1, int[] userSet2) {
 		ArrayList<Integer> userCombinedSet = listToArrayList(userSet1);
 		ArrayList<Integer> userArrayListTemp = listToArrayList(userSet2);
@@ -55,6 +90,13 @@ public class SetOperations {
 		return getList(arrayListToList(unionResult));
 	}
 	
+	/** 
+	 * Finds the the intersection set of A intersects B where the both sets are int[].
+	 * 
+	 * @param userSet1 User's Set A as an int[]. 
+	 * @param userSet2 User's Set B as an int[]. 
+	 * @return String displaying the result of A intersects B.
+	 */
 	public String findIntersection(int[] userSet1, int[] userSet2) {
 		ArrayList<Integer> intersectionResult = new ArrayList<Integer>();
 		for (int i = 0; i < userSet1.length; i++) {
@@ -67,6 +109,13 @@ public class SetOperations {
 		return getList(arrayListToList(intersectionResult));
 	}
 	
+	/** 
+	 * Finds the the complement set of a set where the universal set is the days of the week.
+	 * 
+	 * @param userSet User's set as an ArrayList<String>. 
+	 * @return String displaying the result of the complement of the user's set 
+	 * where the universal set is the days of the week.
+	 */
 	public String findComplementOfDaysOfWeek(ArrayList<String> userSet) {
 		ArrayList<String> complementResult = new ArrayList<>();
 		for(int i = 0; i < daysOfWeekSet.size(); i++) {
@@ -84,6 +133,15 @@ public class SetOperations {
 		return complementResult.toString();
 	}
 
+	/** 
+	 * Finds the the complement set of a set where the universal set is a specified set of integer values.
+	 * 
+	 * @param userSet User's set as an int[]. 
+	 * @param minCount The minimum value of the universal set. 
+	 * @param maxCount The maximum value of the universal set. 
+	 * @return String displaying the result of the complement of the user's set 
+	 * where the universal set is a specified set of integer values.
+	 */
 	public String findComplementOfNumber(int[] userSet, int minCount, int maxCount) {
 		ArrayList<Integer> userArrayList = listToArrayList(userSet);
 		ArrayList<Integer> complementResult = new ArrayList<Integer>();
