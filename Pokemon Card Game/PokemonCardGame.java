@@ -19,7 +19,6 @@ import java.util.Scanner;
 import Cards.Card;
 import Cards.Caterpie;
 import Cards.Charmander;
-import Cards.Energy;
 import Cards.FireEnergy;
 import Cards.GrassEnergy;
 import Cards.LightningEnergy;
@@ -28,7 +27,6 @@ import Cards.Pikachu;
 import Cards.Pokemon;
 import Cards.ProfessorsResearch;
 import Cards.SuperPotion;
-import Cards.Trainer;
 
 public class PokemonCardGame {
 
