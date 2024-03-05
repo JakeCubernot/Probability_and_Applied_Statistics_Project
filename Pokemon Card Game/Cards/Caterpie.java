@@ -21,10 +21,4 @@ public class Caterpie extends Pokemon implements PokemonCardInterface {
         }
     }
     
-    // Attack Two is Null for Caterpie
-    @Override
-    public void attackTwo(Pokemon enemyPokemon) {
-    	super.attackTwo(enemyPokemon);
-    }
-    
 }

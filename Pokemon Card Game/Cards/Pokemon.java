@@ -6,6 +6,10 @@ public class Pokemon extends Card {
     private int numberOfAttacks;
     private boolean isParalyzed = false;
     private String[] attackNames;
+    
+    public Pokemon() {
+		super("Default Card", "Default URL");
+	}
 
     public Pokemon(String name, String cardImageURL, int numberOfAttacks, String[] attackNames) {
         super(name, cardImageURL);

@@ -21,6 +21,9 @@ public class Pikachu extends Pokemon implements PokemonCardInterface {
         Random coinFlip = new Random();
         if (coinFlip.nextInt(2) == 0) {
             this.setHP(this.getHP() - 10);
+            if (this.getHP() < 1) {
+            	this.setHP(1);
+            }
             enemyPokemon.setHP(enemyPokemon.getHP() - 30);
         } else {
             enemyPokemon.setHP(enemyPokemon.getHP() - 30);

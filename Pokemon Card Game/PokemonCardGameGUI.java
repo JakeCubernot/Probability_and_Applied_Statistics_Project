@@ -64,10 +64,15 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	private JMenu attackMenu;
 	private JMenu useTrainerMenu;
 	private JPanel nestBallPanel;
+	private JLabel yourPrizeCardLabel;
+	private JLabel enemyPrizeCardLabel;
 	private JLabel enemyParalzedLabel;
 	private JLabel enemyHealthLabel;
 	private JLabel yourHealthLabel;
 	private JLabel yourParalzedLabel;
+	private JPanel player1WinnerPanel;
+	private JPanel player2WinnerPanel;
+	private Panel playerTurnPanel;
 	
 	/**
 	 * Launch the application.
@@ -117,7 +122,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		frame.getContentPane().add(coinTossResultPanel, "name_233876974578700");
 		coinTossResultPanel.setLayout(null);
 		
-		Panel playerTurnPanel = new Panel();
+		playerTurnPanel = new Panel();
 		playerTurnPanel.setBackground(new Color(192, 192, 192));
 		frame.getContentPane().add(playerTurnPanel, "name_238037374701900");
 		playerTurnPanel.setLayout(null);
@@ -196,7 +201,15 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		pokemonStatusBoard.setBackground(new Color(255, 255, 255));
 		pokemonStatusBoard.setBounds(10, 160, 219, 177);
 		playerTurnPanel.add(pokemonStatusBoard);
-		pokemonStatusBoard.setLayout(new GridLayout(4, 0, 0, 0));
+		pokemonStatusBoard.setLayout(new GridLayout(6, 0, 0, 0));
+		
+		player1WinnerPanel = new JPanel();
+		frame.getContentPane().add(player1WinnerPanel, "name_879322685136000");
+		player1WinnerPanel.setLayout(null);
+		
+		player2WinnerPanel = new JPanel();
+		frame.getContentPane().add(player2WinnerPanel, "name_879327298943400");
+		player2WinnerPanel.setLayout(null);
 		
 		// ================ LABELS ================
 		JLabel coinFlipLabel = new JLabel("<html><div style='text-align:center;'>Heads or tails?<br>"
@@ -253,6 +266,10 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		nestBallTextLabel.setBounds(0, 0, 459, 35);
 		nestBallPanel.add(nestBallTextLabel);
 		
+		enemyPrizeCardLabel = new JLabel("Prize Cards Remaining for Enemy: *****");
+		enemyPrizeCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pokemonStatusBoard.add(enemyPrizeCardLabel);
+		
 		enemyParalzedLabel = new JLabel("Enemy's Pokemon Is Paralyzed: *****");
 		enemyParalzedLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pokemonStatusBoard.add(enemyParalzedLabel);
@@ -268,6 +285,22 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		yourParalzedLabel = new JLabel("Your Pokemon Is Paralyzed: *****");
 		yourParalzedLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pokemonStatusBoard.add(yourParalzedLabel);
+		
+		yourPrizeCardLabel = new JLabel("Prize Cards Remaining for You: *****");
+		yourPrizeCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pokemonStatusBoard.add(yourPrizeCardLabel);
+		
+		JLabel player1WonLabel = new JLabel("Player 1 Has Won!");
+		player1WonLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		player1WonLabel.setBounds(10, 11, 983, 578);
+		player1WonLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		player1WinnerPanel.add(player1WonLabel);
+		
+		JLabel player2WonLabel = new JLabel("Player 2 Has Won!");
+		player2WonLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		player2WonLabel.setBounds(10, 11, 983, 578);
+		player2WonLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		player2WinnerPanel.add(player2WonLabel);
 		
 		// ================ BUTTONS ================
 		JButton btnNewButton = new JButton("Heads");
@@ -437,7 +470,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				addCardToBenchPanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, nestPlayer, 0);
 			}
 		});
-		researchCaterpieButton.setBounds(166, 46, 119, 120);
+		researchCaterpieButton.setBounds(151, 46, 119, 120);
 		nestBallPanel.add(researchCaterpieButton);
 		
 		JButton researchCharmanderButton = new JButton("Add Charmander");
@@ -454,7 +487,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				addCardToBenchPanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, nestPlayer, 0);
 			}
 		});
-		researchCharmanderButton.setBounds(319, 46, 119, 120);
+		researchCharmanderButton.setBounds(295, 46, 143, 120);
 		nestBallPanel.add(researchCharmanderButton);
 		
 		JButton endTurnGameBoardButton = new JButton("End Turn");
@@ -462,6 +495,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 			public void actionPerformed(ActionEvent e) {
 				playerHasAlreadyAttacked = false;
 				if(nestPlayer == player1) {
+					player1ActivePokemon.setIsParalyzed(false);
 					if (firstRoundHasOccured) {
 						player2.hand.add(player2.deck.get(0));
 						player2.deck.remove(0);
@@ -469,14 +503,20 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 					playerTurn(player2, player1, playerActivePanel, playerBenchPanel, playerHandPanel, 
 							enemyActivePanel, enemyBenchPanel, enemyDeckPanel, playerTurnLabel);
 					checkIfWinner();
+					addCardToActivePanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, player2, 0);
+					firstRoundHasOccured = true;
 				} else {
+					player2ActivePokemon.setIsParalyzed(false);
 					if (firstRoundHasOccured) {
+						System.out.println("adding 1 card");
 						player1.hand.add(player1.deck.get(0));
 						player1.deck.remove(0);
 					}
 					playerTurn(player1, player2, playerActivePanel, playerBenchPanel, playerHandPanel, 
 							enemyActivePanel, enemyBenchPanel, enemyDeckPanel, playerTurnLabel);
 					checkIfWinner();
+					addCardToActivePanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, player1, 0);
+					firstRoundHasOccured = true;
 				}
 			}
 		});
@@ -490,12 +530,6 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		
 		JMenu activeMenu = new JMenu("Active");
 		menuBar.add(activeMenu);
-		
-		JMenu benchMenu = new JMenu("Bench");
-		menuBar.add(benchMenu);
-		
-		JMenu pokemonToActiveMenu = new JMenu("Add Pokemon To Active");
-		benchMenu.add(pokemonToActiveMenu);
 		
 		JMenu handMenu = new JMenu("Hand");
 		menuBar.add(handMenu);
@@ -612,6 +646,19 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	        cardLabel.setVerticalAlignment(SwingConstants.TOP);
 	        cardPanel.add(cardLabel);
 	        benchPanel.add(cardPanel);
+	        
+	        int cardIndex = i;
+	        cardPanel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	            	if (player.active.size() == 0) {
+	            		player.active.add(player.bench.get(cardIndex));
+	            		player.bench.remove(cardIndex);
+	            		addCardToActivePanel(handPanel, activePanel, benchPanel, instructionsText, player, cardIndex);
+	            		addCardToBenchPanel(handPanel, activePanel, benchPanel, instructionsText, player, selectedCardIndex);
+	            	}
+	            }
+	        });
 	    }
 	    benchPanel.revalidate();
 	    benchPanel.repaint();
@@ -771,24 +818,68 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	public boolean activePokemonFainted() {
 		boolean pokemonFainted = false;
 		if(player1ActivePokemon.getHP() < 1) {
+			player2ActivePokemon.setHP(1);
 			player1.discard.addAll(player1.active);
 			player1.active.clear();
+			player2.hand.add(player2.prize.get(0));
+			player2.prize.remove(0);
 			pokemonFainted = true;
 		}
 		if(player2ActivePokemon.getHP() < 1) {
+			player2ActivePokemon.setHP(1);
 			player2.discard.addAll(player2.active);
 			player2.active.clear();
+			player1.hand.add(player2.prize.get(0));
+			player1.prize.remove(0);
 			pokemonFainted = true;
 		}
 		return pokemonFainted;
 	}
 	
-	public boolean checkIfWinner() {
-		if(activePokemonFainted()) {
-			
-		}
-		return false;
+	public void checkIfWinner() {
+	    if (activePokemonFainted()) {
+	        if (player1.bench.isEmpty() && !hasPokemonInHand(player1)) {
+	            System.out.println("Player 2 Won");
+	            playerTurnPanel.setVisible(false);
+	            player2WinnerPanel.setVisible(true);
+	        }
+	        if (player2.bench.isEmpty() && !hasPokemonInHand(player2)) {
+	            System.out.println("Player 1 Won");
+	            playerTurnPanel.setVisible(false);
+	            player1WinnerPanel.setVisible(true);
+	        }
+	    }
+	    if (player1.prize.size() == 0) {
+	    	System.out.println("Player 1 Won");
+	    	playerTurnPanel.setVisible(false);
+	    	player1WinnerPanel.setVisible(true);
+	    }
+	    if (player2.prize.size() == 0) {
+	    	System.out.println("Player 2 Won");
+	    	playerTurnPanel.setVisible(false);
+	    	player2WinnerPanel.setVisible(true);
+	    }
+	    if (player1.deck.size() == 0) {
+	    	System.out.println("Player 2 Won");
+	    	playerTurnPanel.setVisible(false);
+	    	player2WinnerPanel.setVisible(true);
+	    }
+	    if (player2.deck.size() == 0) {
+	    	System.out.println("Player 1 Won");
+	    	playerTurnPanel.setVisible(false);
+	    	player1WinnerPanel.setVisible(true);
+	    }
 	}
+
+	private boolean hasPokemonInHand(PokemonCardGame player) {
+	    for (int i = 0; i < player.hand.size(); i++) {
+	        if (player.hand.get(i) instanceof Pokemon) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 	
 	private ImageIcon setCardImage(Card card) {
 	    ImageIcon cardImage;
@@ -834,7 +925,13 @@ public class PokemonCardGameGUI extends PokemonCardGame {
                         	if (attackIndex == 0) {
                         		currentPlayerActivePokemon.attackOne(enemyPlayerActivePokemon);
                         	} else {
-                        		currentPlayerActivePokemon.attackTwo(enemyPlayerActivePokemon);
+                        		if (currentPlayerActivePokemon.getAttackNames()[1] == "Ember") {
+                        			currentPlayerActivePokemon.attackTwo(enemyPlayerActivePokemon);
+                        			currentPlayer.discard.add(currentPlayer.active.get(1));
+                        			currentPlayer.active.remove(currentPlayer.active.get(1));
+                        		} else {
+                        			currentPlayerActivePokemon.attackTwo(enemyPlayerActivePokemon);
+                        		}
                         	}
                         	updateGameBoard(currentPlayer, enemyPlayer, currentActivePanel, 
                         			currentBenchPanel, currentHandPanel, enemyActivePanel, enemyBenchPanel, 
@@ -910,6 +1007,8 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		if (currentPlayer == player1) {
 			player1ActivePokemon = (Pokemon) currentPlayer.active.get(0);
 			player2ActivePokemon = (Pokemon) enemyPlayer.active.get(0);
+			yourPrizeCardLabel.setText("Prize Cards Remaining for You: " + player1.prize.size());
+			enemyPrizeCardLabel.setText("Prize Cards Remaining for Enemy: " + player2.prize.size());
 			yourParalzedLabel.setText("Your Pokemon Is Paralyzed: " + player1ActivePokemon.getIsParalyzed());
 			enemyParalzedLabel.setText("Enemy's Pokemon Is Paralyzed: " + player2ActivePokemon.getIsParalyzed());
 			yourHealthLabel.setText("Your Pokemon's Health: " + player1ActivePokemon.getHP());
@@ -917,6 +1016,8 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		} else {
 			player2ActivePokemon = (Pokemon) currentPlayer.active.get(0);
 			player1ActivePokemon = (Pokemon) enemyPlayer.active.get(0);
+			yourPrizeCardLabel.setText("Prize Cards Remaining for You: " + player2.prize.size());
+			enemyPrizeCardLabel.setText("Prize Cards Remaining for Enemy: " + player1.prize.size());
 			yourParalzedLabel.setText("Your Pokemon Is Paralyzed: " + player2ActivePokemon.getIsParalyzed());
 			enemyParalzedLabel.setText("Enemy's Pokemon Is Paralyzed: " + player1ActivePokemon.getIsParalyzed());
 			yourHealthLabel.setText("Your Pokemon's Health: " + player2ActivePokemon.getHP());

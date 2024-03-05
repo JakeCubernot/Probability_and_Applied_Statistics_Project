@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-
 import Cards.Card;
 import Cards.Energy;
 import Cards.Pokemon;
@@ -20,10 +19,6 @@ public class Player {
         }
         Collections.shuffle(deck);
         System.out.println("deck size: " + deck.size());
-	}
-	
-	public static void main(String[] args) {
-		Player player = new Player(); 
 	}
 	
 }

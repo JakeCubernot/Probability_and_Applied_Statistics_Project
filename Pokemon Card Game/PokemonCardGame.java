@@ -316,35 +316,6 @@ public class PokemonCardGame {
         System.out.println("\nSwitching to player 2's turn.");
     }
 
-    public boolean checkIfWinner() {
-        return false;
-    }
-
-    public void runGameSimulation() {
-
-        PokemonCardGame player1 = new PokemonCardGame();
-        PokemonCardGame player2 = new PokemonCardGame();
-
-        if (player1FirstCoinFlip()) {
-            openingHand(player1, player2);
-            while (checkIfWinner() != true) {
-                player1.playerTurn();
-                checkIfWinner();
-                player2.playerTurn();
-                checkIfWinner();
-            }
-        } else {
-            openingHand(player1, player2);
-            while (checkIfWinner() != true) {
-                player2.playerTurn();
-                checkIfWinner();
-                player1.playerTurn();
-                checkIfWinner();
-            }
-        }
-
-    }
-
     public String[][] pokemonMulligansProbability() {
     	String[][] resultMatrix = new String[60][2];
     	resultMatrix[0][0] = "Number of Pokemon Cards in a Deck of 60";
