@@ -31,13 +31,23 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 
-/* 
+/**
+ * The PokemonCardGameGUI class is an extension to the PokemonCardGame. This class provides a graphical user interface
+ * example of the PokemonCardGame class in practical use. Currently, the PokemonCardGameGUI can have two players play a 
+ * simplified, miniature version of the Pokémon Trading Card Game. However, certain restrictions are not fully in place 
+ * and players must understand their capabilities when performing certain actions during their turn. 
+ * Winning conditions are the following: 
+ * - A player does not have anymore Pokemon in their Active, Bench, or Hand.
+ * - A player obtains all 6 of their prize cards. 
+ * 
  * Sources for this class:
  * https://eclipse.dev/windowbuilder/
  * https://eclipse.dev/windowbuilder/documentation.php
  * http://www.java2s.com/Tutorial/Java/0260__Swing-Event/Rightclicktotriggerthepopupmenu.htm
  * https://www.youtube.com/watch?v=tFwp589MAFk
  * https://pkmncards.com/
+ * 
+ * @author Jake Cubernot
  */
 public class PokemonCardGameGUI extends PokemonCardGame {
 
@@ -60,6 +70,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	private PokemonCardGame nestPlayer;
 	
 	// ================ MENU FEATURES ================
+	private JMenuBar menuBar;
 	private JMenu addEnergyMenu;
 	private JMenu attackMenu;
 	private JMenu useTrainerMenu;
@@ -102,7 +113,8 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1019, 661);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 1017, 680);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
@@ -128,33 +140,33 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		playerTurnPanel.setLayout(null);
 		
 		Panel playerActivePanel = new Panel();
-		playerActivePanel.setBackground(new Color(255, 255, 255));
-		playerActivePanel.setBounds(10, 343, 983, 78);
+		playerActivePanel.setBackground(new Color(204, 255, 204));
+		playerActivePanel.setBounds(259, 284, 459, 137);
 		playerTurnPanel.add(playerActivePanel);
 		
 		Panel playerBenchPanel = new Panel();
-		playerBenchPanel.setBackground(new Color(255, 255, 255));
+		playerBenchPanel.setBackground(new Color(255, 255, 204));
 		playerBenchPanel.setBounds(10, 427, 983, 78);
 		playerTurnPanel.add(playerBenchPanel);
 		
 		Panel playerHandPanel = new Panel();
-		playerHandPanel.setBackground(new Color(255, 255, 255));
-		playerHandPanel.setBounds(10, 512, 983, 78);
+		playerHandPanel.setBackground(new Color(255, 204, 204));
+		playerHandPanel.setBounds(10, 511, 983, 98);
 		playerTurnPanel.add(playerHandPanel);
 		
 		Panel enemyDeckPanel = new Panel();
-		enemyDeckPanel.setBackground(new Color(255, 255, 255));
+		enemyDeckPanel.setBackground(new Color(255, 204, 204));
 		enemyDeckPanel.setBounds(444, 11, 549, 66);
 		playerTurnPanel.add(enemyDeckPanel);
 		
 		Panel enemyBenchPanel = new Panel();
-		enemyBenchPanel.setBackground(new Color(255, 255, 255));
+		enemyBenchPanel.setBackground(new Color(255, 255, 204));
 		enemyBenchPanel.setBounds(444, 88, 549, 66);
 		playerTurnPanel.add(enemyBenchPanel);
 		
 		Panel enemyActivePanel = new Panel();
-		enemyActivePanel.setBackground(new Color(255, 255, 255));
-		enemyActivePanel.setBounds(152, 11, 286, 143);
+		enemyActivePanel.setBackground(new Color(204, 255, 204));
+		enemyActivePanel.setBounds(183, 11, 255, 143);
 		playerTurnPanel.add(enemyActivePanel);
 		
 		Panel player1OpeningTurnPanel = new Panel();
@@ -163,18 +175,18 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		player1OpeningTurnPanel.setLayout(null);
 		
 		Panel player1OpeningHandPanel = new Panel();
-		player1OpeningHandPanel.setBackground(new Color(255, 255, 255));
+		player1OpeningHandPanel.setBackground(new Color(255, 204, 204));
 		player1OpeningHandPanel.setBounds(10, 362, 983, 197);
 		player1OpeningTurnPanel.add(player1OpeningHandPanel);
 		
 		Panel player1OpeningBenchPanel = new Panel();
-		player1OpeningBenchPanel.setBackground(new Color(255, 255, 255));
+		player1OpeningBenchPanel.setBackground(new Color(255, 255, 204));
 		player1OpeningBenchPanel.setBounds(10, 184, 983, 169);
 		player1OpeningTurnPanel.add(player1OpeningBenchPanel);
 		
 		Panel player1OpeningActivePanel = new Panel();
-		player1OpeningActivePanel.setBackground(new Color(255, 255, 255));
-		player1OpeningActivePanel.setBounds(10, 10, 983, 168);
+		player1OpeningActivePanel.setBackground(new Color(204, 255, 204));
+		player1OpeningActivePanel.setBounds(206, 10, 787, 168);
 		player1OpeningTurnPanel.add(player1OpeningActivePanel);
 		
 		Panel player2OpeningTurnPanel = new Panel();
@@ -183,18 +195,18 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		player2OpeningTurnPanel.setLayout(null);
 		
 		Panel player2OpeningHandPanel = new Panel();
-		player2OpeningHandPanel.setBackground(new Color(255, 255, 255));
+		player2OpeningHandPanel.setBackground(new Color(255, 204, 204));
 		player2OpeningHandPanel.setBounds(10, 359, 983, 190);
 		player2OpeningTurnPanel.add(player2OpeningHandPanel);
 		
 		Panel player2OpeningBenchPanel = new Panel();
-		player2OpeningBenchPanel.setBackground(Color.WHITE);
+		player2OpeningBenchPanel.setBackground(new Color(255, 255, 204));
 		player2OpeningBenchPanel.setBounds(10, 184, 983, 169);
 		player2OpeningTurnPanel.add(player2OpeningBenchPanel);
 		
 		Panel player2OpeningActivePanel = new Panel();
-		player2OpeningActivePanel.setBackground(Color.WHITE);
-		player2OpeningActivePanel.setBounds(10, 10, 983, 168);
+		player2OpeningActivePanel.setBackground(new Color(204, 255, 204));
+		player2OpeningActivePanel.setBounds(206, 10, 787, 168);
 		player2OpeningTurnPanel.add(player2OpeningActivePanel);
 		
 		JPanel pokemonStatusBoard = new JPanel();
@@ -256,7 +268,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		playerTurnPanel.add(playerTurnLabel);
 		
 		nestBallPanel = new JPanel();
-		nestBallPanel.setBounds(239, 160, 459, 177);
+		nestBallPanel.setBounds(239, 160, 459, 118);
 		playerTurnPanel.add(nestBallPanel);
 		nestBallPanel.setLayout(null);
 		nestBallPanel.setVisible(false);
@@ -414,6 +426,51 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		player1OpeningEndButton.setBounds(836, 565, 157, 46);
 		player1OpeningTurnPanel.add(player1OpeningEndButton);
 		
+		JPanel colorLegendPanel = new JPanel();
+		colorLegendPanel.setBackground(new Color(255, 255, 255));
+		colorLegendPanel.setBounds(10, 10, 190, 168);
+		player1OpeningTurnPanel.add(colorLegendPanel);
+		colorLegendPanel.setLayout(null);
+		
+		JLabel lblNewLabel_9 = new JLabel("Game Board Colors: ");
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_9.setBounds(10, 11, 170, 27);
+		colorLegendPanel.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_9_1 = new JLabel("Active: ");
+		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1.setBounds(13, 50, 80, 27);
+		colorLegendPanel.add(lblNewLabel_9_1);
+		
+		JLabel lblNewLabel_9_1_1 = new JLabel("Bench: ");
+		lblNewLabel_9_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1.setBounds(13, 80, 80, 27);
+		colorLegendPanel.add(lblNewLabel_9_1_1);
+		
+		JLabel lblNewLabel_9_1_1_1 = new JLabel("Hand: ");
+		lblNewLabel_9_1_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1_1.setBounds(13, 110, 80, 27);
+		colorLegendPanel.add(lblNewLabel_9_1_1_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 204, 204));
+		panel_2.setBounds(103, 115, 18, 18);
+		colorLegendPanel.add(panel_2);
+		
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setBackground(new Color(255, 255, 204));
+		panel_2_1.setBounds(103, 85, 18, 18);
+		colorLegendPanel.add(panel_2_1);
+		
+		JPanel panel_2_2 = new JPanel();
+		panel_2_2.setBackground(new Color(204, 255, 204));
+		panel_2_2.setBounds(103, 55, 18, 18);
+		colorLegendPanel.add(panel_2_2);
+		
 		JButton player2OpeningEndButton = new JButton("End Turn");
 		player2OpeningEndButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -439,6 +496,51 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		player2OpeningEndButton.setBounds(834, 555, 159, 56);
 		player2OpeningTurnPanel.add(player2OpeningEndButton);
 		
+		JPanel colorLegendPanel_1 = new JPanel();
+		colorLegendPanel_1.setLayout(null);
+		colorLegendPanel_1.setBackground(Color.WHITE);
+		colorLegendPanel_1.setBounds(10, 11, 190, 168);
+		player2OpeningTurnPanel.add(colorLegendPanel_1);
+		
+		JLabel lblNewLabel_9_2 = new JLabel("Game Board Colors: ");
+		lblNewLabel_9_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_9_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_9_2.setBounds(10, 11, 170, 27);
+		colorLegendPanel_1.add(lblNewLabel_9_2);
+		
+		JLabel lblNewLabel_9_1_2 = new JLabel("Active: ");
+		lblNewLabel_9_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_2.setBounds(13, 50, 80, 27);
+		colorLegendPanel_1.add(lblNewLabel_9_1_2);
+		
+		JLabel lblNewLabel_9_1_1_2 = new JLabel("Bench: ");
+		lblNewLabel_9_1_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1_2.setBounds(13, 80, 80, 27);
+		colorLegendPanel_1.add(lblNewLabel_9_1_1_2);
+		
+		JLabel lblNewLabel_9_1_1_1_1 = new JLabel("Hand: ");
+		lblNewLabel_9_1_1_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1_1_1.setBounds(13, 110, 80, 27);
+		colorLegendPanel_1.add(lblNewLabel_9_1_1_1_1);
+		
+		JPanel panel_2_3 = new JPanel();
+		panel_2_3.setBackground(new Color(255, 204, 204));
+		panel_2_3.setBounds(103, 115, 18, 18);
+		colorLegendPanel_1.add(panel_2_3);
+		
+		JPanel panel_2_1_1 = new JPanel();
+		panel_2_1_1.setBackground(new Color(255, 255, 204));
+		panel_2_1_1.setBounds(103, 85, 18, 18);
+		colorLegendPanel_1.add(panel_2_1_1);
+		
+		JPanel panel_2_2_1 = new JPanel();
+		panel_2_2_1.setBackground(new Color(204, 255, 204));
+		panel_2_2_1.setBounds(103, 55, 18, 18);
+		colorLegendPanel_1.add(panel_2_2_1);
+		
 		JButton researchPikachuButton = new JButton("Add Pikachu");
 		researchPikachuButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -453,7 +555,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				addCardToBenchPanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, nestPlayer, 0);
 			}
 		});
-		researchPikachuButton.setBounds(10, 46, 119, 120);
+		researchPikachuButton.setBounds(10, 46, 119, 61);
 		nestBallPanel.add(researchPikachuButton);
 		
 		JButton researchCaterpieButton = new JButton("Add Caterpie");
@@ -470,7 +572,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				addCardToBenchPanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, nestPlayer, 0);
 			}
 		});
-		researchCaterpieButton.setBounds(151, 46, 119, 120);
+		researchCaterpieButton.setBounds(151, 46, 119, 61);
 		nestBallPanel.add(researchCaterpieButton);
 		
 		JButton researchCharmanderButton = new JButton("Add Charmander");
@@ -487,7 +589,7 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				addCardToBenchPanel(playerHandPanel, playerActivePanel, playerBenchPanel, playerTurnLabel, nestPlayer, 0);
 			}
 		});
-		researchCharmanderButton.setBounds(295, 46, 143, 120);
+		researchCharmanderButton.setBounds(295, 46, 143, 61);
 		nestBallPanel.add(researchCharmanderButton);
 		
 		JButton endTurnGameBoardButton = new JButton("End Turn");
@@ -523,10 +625,56 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		endTurnGameBoardButton.setBounds(830, 216, 163, 66);
 		playerTurnPanel.add(endTurnGameBoardButton);
 		
+		JPanel colorLegendPanel_1_1 = new JPanel();
+		colorLegendPanel_1_1.setLayout(null);
+		colorLegendPanel_1_1.setBackground(Color.WHITE);
+		colorLegendPanel_1_1.setBounds(10, 11, 163, 143);
+		playerTurnPanel.add(colorLegendPanel_1_1);
+		
+		JLabel lblNewLabel_9_2_1 = new JLabel("Game Board Colors: ");
+		lblNewLabel_9_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_9_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_9_2_1.setBounds(10, 12, 143, 27);
+		colorLegendPanel_1_1.add(lblNewLabel_9_2_1);
+		
+		JLabel lblNewLabel_9_1_2_1 = new JLabel("Active: ");
+		lblNewLabel_9_1_2_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_2_1.setBounds(20, 45, 80, 27);
+		colorLegendPanel_1_1.add(lblNewLabel_9_1_2_1);
+		
+		JLabel lblNewLabel_9_1_1_2_1 = new JLabel("Bench: ");
+		lblNewLabel_9_1_1_2_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1_2_1.setBounds(20, 75, 80, 27);
+		colorLegendPanel_1_1.add(lblNewLabel_9_1_1_2_1);
+		
+		JLabel lblNewLabel_9_1_1_1_1_1 = new JLabel("Hand: ");
+		lblNewLabel_9_1_1_1_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_9_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_9_1_1_1_1_1.setBounds(20, 105, 80, 27);
+		colorLegendPanel_1_1.add(lblNewLabel_9_1_1_1_1_1);
+		
+		JPanel panel_2_3_1 = new JPanel();
+		panel_2_3_1.setBackground(new Color(255, 204, 204));
+		panel_2_3_1.setBounds(110, 110, 18, 18);
+		colorLegendPanel_1_1.add(panel_2_3_1);
+		
+		JPanel panel_2_1_1_1 = new JPanel();
+		panel_2_1_1_1.setBackground(new Color(255, 255, 204));
+		panel_2_1_1_1.setBounds(110, 80, 18, 18);
+		colorLegendPanel_1_1.add(panel_2_1_1_1);
+		
+		JPanel panel_2_2_1_1 = new JPanel();
+		panel_2_2_1_1.setBackground(new Color(204, 255, 204));
+		panel_2_2_1_1.setBounds(110, 50, 18, 18);
+		colorLegendPanel_1_1.add(panel_2_2_1_1);
+		
 		// ================ MENU ================
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		menuBar.setForeground(new Color(0, 0, 0));
 		frame.setJMenuBar(menuBar);
+		menuBar.setVisible(false);
 		
 		JMenu activeMenu = new JMenu("Active");
 		menuBar.add(activeMenu);
@@ -617,6 +765,19 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	
 	// ================ FUNCTIONS ================
 
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param enemyPlayer: Player who is not taking their turn on the game board.
+	 * @param currentActivePanel
+	 * @param currentBenchPanel
+	 * @param currentHandPanel
+	 * @param enemyActivePanel
+	 * @param enemyBenchPanel
+	 * @param enemyHandPanel
+	 * @param playerTurnLabel
+	 */
 	public void playerTurn(PokemonCardGame currentPlayer, PokemonCardGame enemyPlayer, Panel currentActivePanel, 
 			Panel currentBenchPanel, Panel currentHandPanel, Panel enemyActivePanel, Panel enemyBenchPanel, 
 			Panel enemyHandPanel, JLabel playerTurnLabel) {
@@ -625,6 +786,16 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 				enemyActivePanel, enemyBenchPanel, enemyHandPanel, playerTurnLabel);
 	}
 	
+	
+	/**
+	 * 
+	 * @param handPanel
+	 * @param activePanel
+	 * @param benchPanel
+	 * @param instructionsText
+	 * @param player
+	 * @param selectedCardIndex
+	 */
 	public void addCardToBenchPanel(Panel handPanel, Panel activePanel, Panel benchPanel, 
 			JLabel instructionsText, PokemonCardGame player, int selectedCardIndex) {
 		
@@ -666,6 +837,16 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    instructionsText.setText("Choose any other Pokemon to add to to your Bench!");
 	}
 	
+	
+	/**
+	 * 
+	 * @param handPanel
+	 * @param activePanel
+	 * @param benchPanel
+	 * @param instructionsText
+	 * @param player
+	 * @param selectedCardIndex
+	 */
 	public void addCardToActivePanel(Panel handPanel, Panel activePanel, Panel benchPanel, JLabel instructionsText, PokemonCardGame player, int selectedCardIndex) {
 		
 		addCardsToHandPanel(handPanel, activePanel, benchPanel, instructionsText, player);
@@ -703,6 +884,15 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    instructionsText.setText("");
 	}
 	
+	
+	/**
+	 * 
+	 * @param handPanel
+	 * @param activePanel
+	 * @param benchPanel
+	 * @param instructionsText
+	 * @param player
+	 */
 	public void addCardsToHandPanel(Panel handPanel, Panel activePanel, Panel benchPanel, JLabel instructionsText, PokemonCardGame player) {
 	    handPanel.removeAll();
 	    
@@ -760,6 +950,14 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    handPanel.repaint();
 	}
 	
+	
+	/**
+	 * 
+	 * @param playerCoinChoice
+	 * @param coinFlipResultLabel
+	 * @param coinFlipWinnerLabel
+	 * @return
+	 */
 	public boolean player1PicksHeadsGUI(boolean playerCoinChoice, Label coinFlipResultLabel, Label coinFlipWinnerLabel) {
         Random rng = new Random();
         int coinFlipResult = rng.nextInt(2) + 1;
@@ -797,6 +995,13 @@ public class PokemonCardGameGUI extends PokemonCardGame {
         return coinFlipWinnerIsPlayer1;
     }
 	
+	
+	/**
+	 * 
+	 * @param playerFirstTurnChoice
+	 * @param coinFlipWinnerIsPlayer1
+	 * @return
+	 */
 	public boolean player1First(boolean playerFirstTurnChoice, boolean coinFlipWinnerIsPlayer1) {
 		boolean player1GoesFirst;
 		if (coinFlipWinnerIsPlayer1) {
@@ -815,6 +1020,11 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		return player1GoesFirst;
 	}
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean activePokemonFainted() {
 		boolean pokemonFainted = false;
 		if(player1ActivePokemon.getHP() < 1) {
@@ -836,6 +1046,10 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 		return pokemonFainted;
 	}
 	
+	
+	/**
+	 * 
+	 */
 	public void checkIfWinner() {
 	    if (activePokemonFainted()) {
 	        if (player1.bench.isEmpty() && !hasPokemonInHand(player1)) {
@@ -871,6 +1085,12 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    }
 	}
 
+	
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 */
 	private boolean hasPokemonInHand(PokemonCardGame player) {
 	    for (int i = 0; i < player.hand.size(); i++) {
 	        if (player.hand.get(i) instanceof Pokemon) {
@@ -881,6 +1101,11 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	}
 
 	
+	/**
+	 * 
+	 * @param card
+	 * @return
+	 */
 	private ImageIcon setCardImage(Card card) {
 	    ImageIcon cardImage;
 	    String imagePath = card.getCardImage();
@@ -896,6 +1121,19 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    return scaledCardImage;
 	}
 	
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param enemyPlayer: Player who is not taking their turn on the game board.
+	 * @param currentActivePanel
+	 * @param currentBenchPanel
+	 * @param currentHandPanel
+	 * @param enemyActivePanel
+	 * @param enemyBenchPanel
+	 * @param enemyHandPanel
+	 * @param playerTurnLabel
+	 */
 	private void updateMenuBar(PokemonCardGame currentPlayer, PokemonCardGame enemyPlayer, Panel currentActivePanel, 
 	        Panel currentBenchPanel, Panel currentHandPanel, Panel enemyActivePanel, Panel enemyBenchPanel, 
 	        Panel enemyHandPanel, JLabel playerTurnLabel) {
@@ -999,9 +1237,24 @@ public class PokemonCardGameGUI extends PokemonCardGame {
         }
 	}
 	
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param enemyPlayer: Player who is not taking their turn on the game board.
+	 * @param currentActivePanel
+	 * @param currentBenchPanel
+	 * @param currentHandPanel
+	 * @param enemyActivePanel
+	 * @param enemyBenchPanel
+	 * @param enemyHandPanel
+	 * @param playerTurnLabel
+	 */
 	private void updateGameBoard(PokemonCardGame currentPlayer, PokemonCardGame enemyPlayer, Panel currentActivePanel, 
 	        Panel currentBenchPanel, Panel currentHandPanel, Panel enemyActivePanel, Panel enemyBenchPanel, 
 	        Panel enemyHandPanel, JLabel playerTurnLabel) {
+		menuBar.setVisible(true);
+		
 		nestPlayer = currentPlayer;
 		
 		if (currentPlayer == player1) {
@@ -1038,11 +1291,24 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	}
 	
 	// ================ TRAINER CARD ABILITIES ================
+	
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param trainerIndex: Index of the Trainer card being used by player.
+	 */
 	private void useNestBall(PokemonCardGame currentPlayer, int trainerIndex) {
 		nestBallPanel.setVisible(true);
 		currentPlayer.hand.remove(trainerIndex);
 	}
 	
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param trainerIndex: Index of the Trainer card being used by player.
+	 */
 	private void useProfessorsResearch(PokemonCardGame currentPlayer, int trainerIndex) {
 		currentPlayer.discard.addAll(hand);
     	currentPlayer.hand.clear();
@@ -1051,6 +1317,12 @@ public class PokemonCardGameGUI extends PokemonCardGame {
         }
 	}
 	
+	
+	/**
+	 * 
+	 * @param currentPlayer: Player who is currently taking their turn on the game board.
+	 * @param trainerIndex: Index of the Trainer card being used by player.
+	 */
 	private void useSuperPotion(PokemonCardGame currentPlayer, int trainerIndex) {
 		currentPlayer.discard.add(currentPlayer.hand.get(trainerIndex));
     	currentPlayer.hand.remove(trainerIndex);

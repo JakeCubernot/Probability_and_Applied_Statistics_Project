@@ -12,7 +12,12 @@ public class TestSetOperations {
         System.out.println("A union B: " + test.findUnion(sampleSetA, sampleSetB));
         System.out.println("A interect B: " + test.findIntersection(sampleSetA, sampleSetB));
 
-        ArrayList<String> userDaysOfWeekSet = new ArrayList<>() {{
+        ArrayList<String> userDaysOfWeekSet = new ArrayList<>() {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+		{
+			
             add("Tuesday");
             add("Thursday");
         }};

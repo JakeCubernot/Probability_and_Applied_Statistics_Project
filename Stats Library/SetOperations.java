@@ -8,7 +8,12 @@ import java.util.ArrayList;
  */
 public class SetOperations {
 
-    private ArrayList<String> daysOfWeekSet = new ArrayList<>() {{
+    private ArrayList<String> daysOfWeekSet = new ArrayList<>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
 		add("Sunday");
 		add("Monday");
 		add("Tuesday");
