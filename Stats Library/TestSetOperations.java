@@ -6,7 +6,7 @@ public class TestSetOperations {
         SetOperations test = new SetOperations();
 
         int[] sampleSetA = {1, 2, 3, 4, 5};
-        int[] sampleSetB = {2, 4, 5, 6, 7};
+        int[] sampleSetB = {2, 4, 5, 6, 7, 2};
         System.out.println("\nSample Set A: " + test.getList(sampleSetA));
         System.out.println("Sample Set B: " + test.getList(sampleSetB));
         System.out.println("A union B: " + test.findUnion(sampleSetA, sampleSetB));

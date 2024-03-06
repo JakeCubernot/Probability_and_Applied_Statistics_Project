@@ -192,6 +192,7 @@ public class StatsLibrary {
 		return combinationResult;
 	}
 
+
 	/** 
 	 * Finds the binomial distribution of n choose r.
 	 * 
@@ -202,5 +203,59 @@ public class StatsLibrary {
 	 */
 	public double findBinomialDistribution(int n, int x, double p) {
 		return (findCombination(n, x).intValue() * Math.pow(p, x) * Math.pow(1 - p, n - x));
+	}
+
+
+	/**
+	 * Finds the conditional probability of A given B.
+	 * 
+	 * @param pAIntersectsB Probability of A and B
+	 * @param pB Probability of B
+	 * @return Conditional probability result of the probability of A given B.
+	 */
+	public double findConditionalProbability(double pAIntersectsB, double pB) {
+		return pAIntersectsB/pB;
+	}
+
+
+	/**
+	 * Find the geometric distribution of a given set of variables.
+	 * 
+	 * @param k The first occurrence of success within a trial. 
+	 * @param p The probability of success on each trial.
+	 * @return The double result of the geometric distribution.
+	 */
+	public double findGeometricDistribution(int k, double p) {
+		return Math.pow(1 - p, k - 1) * p;
+	}
+
+
+	/**
+	 * Find the hypergeometric distribution of a given set of variables.
+	 * 
+	 * @param N Number of the population
+	 * @param n Number of the sample
+	 * @param k Number of successes in the population
+	 * @param x Number of successes in the sample
+	 * @return The BigInteger result of the hypergeometric distribution.
+	 */
+	public BigInteger findHypergeometricDistribution(int N, int n, int k, int x) {
+		BigInteger numerator = findCombination(k, x).multiply(findCombination(N - k, n - x));
+		return (numerator.divide(findCombination(N, n)));
+	}
+
+
+	/**
+	 * Find the negative binomial distribution of a given set of variables.
+	 * 
+	 * @param n Number of trials 
+	 * @param k Number of successes
+	 * @param p Probability of success
+	 * @return The BigInteger result of the negative binomial distribution.
+	 */
+	public BigInteger findNegativeBinomialDistribution(int n, int k, double p) {
+		BigInteger negativeBinomialDistribution = BigInteger.ONE;
+		negativeBinomialDistribution = negativeBinomialDistribution.multiply(BigInteger.valueOf((long)(Math.pow(p, k) * Math.pow(1 - p, n - k))));
+		return (negativeBinomialDistribution.multiply(findCombination(n - 1, k - 1)));
 	}
 }

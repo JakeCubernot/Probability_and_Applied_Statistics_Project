@@ -34,7 +34,7 @@ import java.awt.GridLayout;
 /**
  * The PokemonCardGameGUI class is an extension to the PokemonCardGame. This class provides a graphical user interface
  * example of the PokemonCardGame class in practical use. Currently, the PokemonCardGameGUI can have two players play a 
- * simplified, miniature version of the Pokémon Trading Card Game. However, certain restrictions are not fully in place 
+ * simplified, miniature version of the Pokï¿½mon Trading Card Game. However, certain restrictions are not fully in place 
  * and players must understand their capabilities when performing certain actions during their turn. 
  * Winning conditions are the following: 
  * - A player does not have anymore Pokemon in their Active, Bench, or Hand.
@@ -1290,9 +1290,9 @@ public class PokemonCardGameGUI extends PokemonCardGame {
 	    addCardToActivePanel(enemyHandPanel, enemyActivePanel, enemyBenchPanel, playerTurnLabel, enemyPlayer, 0);
 	}
 	
+	
 	// ================ TRAINER CARD ABILITIES ================
-	
-	
+
 	/**
 	 * 
 	 * @param currentPlayer: Player who is currently taking their turn on the game board.

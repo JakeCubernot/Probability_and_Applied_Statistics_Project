@@ -12,13 +12,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Collections;
-import java.util.Scanner;
 
 import Cards.Card;
 import Cards.Caterpie;
 import Cards.Charmander;
+import Cards.Energy;
 import Cards.FireEnergy;
 import Cards.GrassEnergy;
 import Cards.LightningEnergy;
@@ -27,6 +26,7 @@ import Cards.Pikachu;
 import Cards.Pokemon;
 import Cards.ProfessorsResearch;
 import Cards.SuperPotion;
+import Cards.Trainer;
 
 public class PokemonCardGame {
 
@@ -36,43 +36,39 @@ public class PokemonCardGame {
     public ArrayList<Card> active = new ArrayList<Card>();
     public ArrayList<Card> prize = new ArrayList<Card>();
     public ArrayList<Card> discard = new ArrayList<Card>();
-    private Scanner playerInput = new Scanner(System.in);
 
     public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
-    	for (int i = 0; i < pokemonCardCount / 4; i++) {
-            deck.add(new Pikachu());
-            deck.add(new Caterpie());
-            deck.add(new Charmander());
+        Pokemon[] pokemonCards = { new Pikachu(), new Caterpie(), new Charmander() };
+        Energy[] energyCards = { new LightningEnergy(), new GrassEnergy(), new FireEnergy() };
+        Trainer[] trainerCards = { new ProfessorsResearch(), new NestBall(), new SuperPotion() };
+
+    	for (int i = 0; i < pokemonCardCount / pokemonCards.length; i++) {
+            for (Pokemon pokemon : pokemonCards) {
+                deck.add(pokemon);
+            }
         }
-    	deck.add(new Pikachu());
-        deck.add(new Caterpie());
-        deck.add(new Charmander());
-        deck.add(new Pikachu());
-        deck.add(new Caterpie());
-    	
-        for (int i = 0; i < energyCardCount / 4; i++) {
-            deck.add(new LightningEnergy());
-            deck.add(new GrassEnergy());
-            deck.add(new FireEnergy());
+        for (int i = 0; i < pokemonCardCount % pokemonCards.length; i++) {
+            deck.add(pokemonCards[i]);
         }
-        deck.add(new LightningEnergy());
-        deck.add(new GrassEnergy());
-        deck.add(new FireEnergy());
-        deck.add(new LightningEnergy());
-        deck.add(new GrassEnergy());
         
-        for (int i = 0; i < trainerCardCount / 4; i++) {
-        	deck.add(new ProfessorsResearch());
-            deck.add(new NestBall());
-            deck.add(new SuperPotion());
+        for (int i = 0; i < energyCardCount / energyCards.length; i++) {
+            for (Energy energy : energyCards) {
+                deck.add(energy);
+            }
         }
-        deck.add(new ProfessorsResearch());
-        deck.add(new NestBall());
-        deck.add(new SuperPotion());
-        deck.add(new ProfessorsResearch());
-        deck.add(new SuperPotion());
-        
-        System.out.println(deck.size());
+        for (int i = 0; i < energyCardCount % energyCards.length; i++) {
+            deck.add(energyCards[i]);
+        }
+
+        for (int i = 0; i < trainerCardCount / trainerCards.length; i++) {
+            for (Trainer trainer : trainerCards) {
+                deck.add(trainer);
+            }
+        }
+        for (int i = 0; i < trainerCardCount % trainerCards.length; i++) {
+            deck.add(trainerCards[i]);
+        }
+
         Collections.shuffle(deck);
     }
 
@@ -94,43 +90,7 @@ public class PokemonCardGame {
             hand.add(drawCard()); 
         }
     }
-
-    public void viewHand() {
-		String handToString = "Player's Hand: [";
-		for (int i = 0; i < hand.size(); i++) {
-			if (i == hand.size() - 1) {
-				handToString += (hand.get(i) + "]");
-			} else {
-				handToString += (hand.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(handToString);
-	}
-
-    public void viewBench() {
-		String benchToString = "Player's Bench: [";
-		for (int i = 0; i < bench.size(); i++) {
-			if (i == hand.size() - 1) {
-				benchToString += (bench.get(i) + "]");
-			} else {
-				benchToString += (bench.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(benchToString);
-	}
-
-    public void viewActive() {
-        String activeToString = "Player's Active: [";
-		for (int i = 0; i < bench.size(); i++) {
-			if (i == hand.size() - 1) {
-				activeToString += (bench.get(i) + "]");
-			} else {
-				activeToString += (bench.get(i).toString() + ", ");
-			}
-		}
-		System.out.println(activeToString);
-    }
-
+    
     public void placePokemonInActive(int handIndex) {
         active.add(deck.get(handIndex)); 
         hand.remove(handIndex);
@@ -173,61 +133,21 @@ public class PokemonCardGame {
         player2.placePrizeCards();
         System.out.println("\nBoth players place 6 prize cards on the board.\n");
     }
-    
-    public boolean player1FirstCoinFlip() {
-        System.out.print("Heads or tails player 1?\nEnter 1 for heads and 2 for tails: ");
-        int playerCoinChoice = playerInput.nextInt();
-        Random rng = new Random();
-        int coinFlipResult = rng.nextInt(2) + 1;
-        System.out.println(coinFlipResult);
-        if(coinFlipResult == 1) {
-            System.out.println("\nThe coin is heads!");
-        } else {
-            System.out.println("\nThe coin is tails!");
-        }
-        boolean coinFlipWinner = false;
-        switch (playerCoinChoice) {
-            case 1:
-                if (playerCoinChoice == coinFlipResult) {
-                    System.out.println("\nPlayer 1 has won the coin flip. Player 1 can now choose who goes first!");
-                    coinFlipWinner = true;
-                } else {
-                    System.out.println("\nPlayer 2 has won the coin flip. Player 2 can now choose who goes first!");
-                    coinFlipWinner = false;
-                }
-                break;
-        
-            case 2:
-                if (playerCoinChoice == coinFlipResult) {
-                    System.out.println("\nPlayer 1 has won the coin flip. Player 1 can now choose who goes first!");
-                    coinFlipWinner = true;
-                } else {
-                    System.out.println("\nPlayer 2 has won the coin flip. Player 2 can now choose who goes first!");
-                    coinFlipWinner = false;
-                }
-                break;
-        }
-        if (coinFlipWinner) {
-            System.out.print("\nPlayer 1, who do you want to go first?\nEnter 1 for player 1 and 2 for player 2: ");
-            int playerTurnChoice = playerInput.nextInt();
-            if (playerTurnChoice == 1) {
-                System.out.println("Player 1 chooses themselves to go first.\n");
-                coinFlipWinner = true;
+
+    public void openingHand(PokemonCardGame player) {
+        player.drawHand();
+        boolean openingHandsReady = false;
+        while (!openingHandsReady) {
+            if (!player.evaluateOpeningHand()) {
+                player.restartOpeningHand();
+                player.drawHand();
             } else {
-                System.out.println("Player 1 chooses player 2 to go first.\n");
-                coinFlipWinner = false;
-            }
-        } else {
-            if ((rng.nextInt(2) + 1) == 1) {
-                System.out.println("Player 2 chooses player 1 to go first.\n");
-                coinFlipWinner = true;
-            } else {
-                System.out.println("Player 2 chooses themselves to go first.\n");
-                coinFlipWinner = false;
+                openingHandsReady = true;
             }
         }
-        return coinFlipWinner;
+        player.placePrizeCards();
     }
+    
 
     public void restartOpeningHand() {
         deck.addAll(hand);
@@ -237,7 +157,7 @@ public class PokemonCardGame {
 
     public boolean evaluateOpeningHand() {
         for (int i = 0; i < hand.size(); i++) {
-            Card currentCard = hand.get(i); // Fixed the index from 1 to i
+            Card currentCard = hand.get(i); 
             if (currentCard instanceof Pokemon) {
                 return true;
             }
@@ -251,79 +171,14 @@ public class PokemonCardGame {
         
     }
 
-    public void playerTurn() {
-        if (active.isEmpty()) {
-            viewHand();
-            System.out.print("Place a basic Pokemon card in your Active.\nSelect the card in your hand from 1 to " + hand.size() + ": ");
-            int playerInput = this.playerInput.nextInt() - 1;
-            placePokemonInActive(playerInput);
-        }
-        if (bench.isEmpty()) {
-            for(int i = 0; i < 5; i++) {
-                viewHand();
-                System.out.print("If any, add additional basic Pokemon cards to the Bench.\nSelect the card in your hand from 1 to " 
-                + hand.size() + ".\nIf there is no remaining basic Pokemon cards, enter 0.\nYou have " + (5 - i) + " slots avalible on your Bench: ");
-                int playerInput = this.playerInput.nextInt() - 1;
-                if (playerInput == -1) {
-                    break;
-                } else {
-                    bench.add(hand.get(playerInput));
-                    hand.remove(playerInput);
-                    viewBench();
-                }
-            }
-        }
-        boolean playingTurn = true;
-        while (playingTurn) {
-            viewHand();
-            viewBench();
-            viewActive();
-            System.out.print("1. Edit Active\n2. Edit Hand\n3. End Turn\nChoose one of the options: ");
-            int playerMenuChoice = playerInput.nextInt();
-            switch (playerMenuChoice) {
-                case 1:
-                    boolean usingActiveMenu = true;
-                    while (usingActiveMenu) {
-                        viewHand();
-                        viewActive();
-                        System.out.print("1. Add Energy Card to Active Card\n2. Return to Previous Menu\nChoose one of the options: ");
-                        int activeMenuChoice = playerInput.nextInt();
-                        switch (activeMenuChoice) {
-                            case 1:
-                                viewHand();
-                                viewActive();
-                                System.out.print("Select an Energy card to add to the Active card.\nSelect the card in your hand from 1 to " 
-                                + hand.size() + ": ");
-                                int energyCardChoice = playerInput.nextInt() - 1;
-                                active.add(hand.get(energyCardChoice));
-                                hand.remove(energyCardChoice);
-                                break;
-                            case 2:
-                                usingActiveMenu = false;
-                                System.out.println("\nReturning to Previous Menu...");
-                                break;
-                        }
-                    }
-
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    playingTurn = false;
-                    break;
-            }
-        }
-        System.out.println("\nSwitching to player 2's turn.");
-    }
-
     public String[][] pokemonMulligansProbability() {
     	String[][] resultMatrix = new String[60][2];
     	resultMatrix[0][0] = "Number of Pokemon Cards in a Deck of 60";
     	resultMatrix[0][1] = "Chance (%) of Drawing a Pokemon Card in Opening Hand";
-    	int testCount = 10000;
+    	int testCount = 1000000;
         for(int i = 1; i < 60; i++) {
         	int pokemonCardCount = 0;
-        	for(int j = 1; j < testCount; j++) {
+        	for(int j = 1; j <= testCount; j++) {
         	    PokemonCardGame testDeck = new PokemonCardGame();
                 testDeck.buildDeck(i, 60 - i, 0);
         	    if (testDeck.pokemonCardProbability()) {
@@ -338,10 +193,40 @@ public class PokemonCardGame {
         return resultMatrix;
     }
     
+    public String[][] pokemonRareCandiesSimulation() {
+        String[][] resultMatrix = new String[5][2];
+        resultMatrix[0][0] = "Number of Rare Candies in a Deck of 60";
+        resultMatrix[0][1] = "Chance (%) of Not Bricking";
+        int testCount = 1000000;
+        for (int i = 1; i <= 4; i++) {
+            int candyInPrizeCount = 0;
+            for (int j = 0; j < testCount; j++) {
+                PokemonCardGame testDeck = new PokemonCardGame();
+                testDeck.buildDeck(20, 40 - i, i);
+                openingHand(testDeck);
+                if(!isCandyBricked(testDeck)) {
+                    candyInPrizeCount++;
+                }
+            }
+            double rareCandiesProbability = ((double) candyInPrizeCount / testCount) * 100.0;
+            resultMatrix[i][0] = String.valueOf(i);
+            resultMatrix[i][1] = String.valueOf(rareCandiesProbability + "%"); 
+        }
+        return resultMatrix;
+    }
+
+    private boolean isCandyBricked(PokemonCardGame player) {
+        for (int i = 0; i < player.prize.size(); i++) {
+            if (player.prize.get(i) instanceof Trainer) {
+                return false;
+            }
+        } return true;
+    }
+    
     // I got this method from https://springhow.com/java-write-csv/.
-    public void writeCSVFile(String[][] matrixData) throws IOException {
+    public void writeCSVFile(String[][] matrixData, String fileName) throws IOException {
     	
-    	File csvFile = new File("mulligansData.csv");
+    	File csvFile = new File(fileName);
     	FileWriter fileWriter = new FileWriter(csvFile);
     	
     	for (String[] data : matrixData) {
@@ -360,8 +245,12 @@ public class PokemonCardGame {
     }
 
     public void runMulligansTest() throws IOException {
-    	
     	String[][] mulligansData = pokemonMulligansProbability();
-    	writeCSVFile(mulligansData);
+    	writeCSVFile(mulligansData, "Mulligans Data.csv");
+    }
+
+    public void runRareCandiesSimulation() throws IOException {
+    	String[][] rareCandiesData = pokemonRareCandiesSimulation();
+    	writeCSVFile(rareCandiesData, "Rare Candies Data.csv");
     }
 }
