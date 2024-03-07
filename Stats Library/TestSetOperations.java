@@ -21,8 +21,8 @@ public class TestSetOperations {
             add("Tuesday");
             add("Thursday");
         }};
-        System.out.println("A complement: " + test.findComplementOfDaysOfWeek(userDaysOfWeekSet));
-        System.out.println("A complement: " + test.findComplementOfNumber(sampleSetA, -2, 10));
+        System.out.println("Complement of A where A={Tuesday, Thursday}: " + test.findComplementOfDaysOfWeek(userDaysOfWeekSet));
+        System.out.println("Complement of A: " + test.findComplementOfNumber(sampleSetA, -2, 10));
         
     }
 }

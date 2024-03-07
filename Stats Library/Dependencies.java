@@ -1,6 +1,15 @@
+
+/**
+ * The dependencies class is used to find the boolean of whether the given values are an 
+ * independent event, a dependent event, mutually exclusive, or mutually inclusive.
+ * 
+ * @author Jake Cubernot
+ */
 public class Dependencies {
+
+
     /**
-	 * Determines if the probabililties an event are independent events.
+	 * Determines if the probabilities of an event are independent events.
 	 * (Formulas used from https://www.onlinemathlearning.com/compound-probability-7sp8a.html)
 	 * 
 	 * @param pA Probability of A

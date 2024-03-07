@@ -115,7 +115,7 @@ public class SetOperations {
 	}
 	
 	/** 
-	 * Finds the the complement set of a set where the universal set is the days of the week.
+	 * Finds the complement set of a set where the universal set is the days of the week.
 	 * 
 	 * @param userSet User's set as an ArrayList<String>. 
 	 * @return String displaying the result of the complement of the user's set 

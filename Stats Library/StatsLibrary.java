@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * The StatsLibrary class contains multiple functions associated with statistics.
- * Functions included are central tendancies (mean, median, and mode), standard deviation and variance, 
+ * Functions included are central tendencies (mean, median, and mode), standard deviation and variance, 
  * permutation, combination, and binomial distribution. 
  * 
  * @author Jake Cubernot
@@ -188,7 +188,8 @@ public class StatsLibrary {
 	 */
 	public BigInteger findCombination(int n, int r) {
 		BigInteger combinationResult = BigInteger.ONE;
-		combinationResult = combinationResult.multiply(findFactorial(n).divide(findFactorial(r).multiply(findFactorial(n - r))));
+		combinationResult = combinationResult.multiply(findFactorial(n).divide(findFactorial(r)
+		.multiply(findFactorial(n - r))));
 		return combinationResult;
 	}
 
