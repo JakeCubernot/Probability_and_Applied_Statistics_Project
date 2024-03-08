@@ -30,12 +30,36 @@ import Cards.Trainer;
 
 public class PokemonCardGame {
 
-	public ArrayList<Card> deck = new ArrayList<Card>();
-    public ArrayList<Card> hand = new ArrayList<Card>();
-    public ArrayList<Card> bench = new ArrayList<Card>();
-    public ArrayList<Card> active = new ArrayList<Card>();
-    public ArrayList<Card> prize = new ArrayList<Card>();
-    public ArrayList<Card> discard = new ArrayList<Card>();
+	private ArrayList<Card> deck = new ArrayList<Card>();
+    private ArrayList<Card> hand = new ArrayList<Card>();
+    private ArrayList<Card> bench = new ArrayList<Card>();
+    private ArrayList<Card> active = new ArrayList<Card>();
+    private ArrayList<Card> prize = new ArrayList<Card>();
+    private ArrayList<Card> discard = new ArrayList<Card>();
+
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
+    public ArrayList<Card> getBench() {
+        return bench;
+    }
+
+    public ArrayList<Card> getActive() {
+        return active;
+    }
+
+    public ArrayList<Card> getPrize() {
+        return prize;
+    }
+
+    public ArrayList<Card> getDiscard() {
+        return discard;
+    }
 
     public void buildDeck(int pokemonCardCount, int energyCardCount, int trainerCardCount) {
         Pokemon[] pokemonCards = { new Pikachu(), new Caterpie(), new Charmander() };
